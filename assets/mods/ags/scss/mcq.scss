@@ -1,0 +1,45 @@
+// Card styles
+.card {
+  margin-bottom: 1rem;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+// List group item styles
+.list-group-item {
+  cursor: pointer;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #ddd;
+  margin-bottom: 0.5rem;
+}
+
+// Hover effect for list group items
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+// Active state for selected options
+.list-group-item.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+// Correct answer indication
+.list-group-item.correct {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+// Incorrect answer indication
+.list-group-item.incorrect {
+  background-color: #f8d7da;
+  color: #721c24;
+}

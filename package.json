@@ -1,0 +1,16 @@
+{
+    "name": "ags-module-mcq",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/agsayyed/ags-module-mcq.git"
+    },
+    "author": "Abdul Sayyed <s.ghafoor@outlook.com>",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/agsayyed/ags-module-mcq/issues"
+    },
+    "homepage": "",
+    "devDependencies": {
+      "prettier-plugin-go-template": "^0.0.15"
+    }
+  }
