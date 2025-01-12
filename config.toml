@@ -1,3 +1,7 @@
+baseURL = "https://github.com/agsayyed/ags-module-mcq"
+title = "mcq"
+description = "Moudle is used with hugo shortcodes to display multipe choice questin format, reading from a hugo site's data directory in an accordion. question answers are kept in yml format"
+
 [module.hugoVersion]
 min = "0.110.0"
 
