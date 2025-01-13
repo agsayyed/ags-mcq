@@ -1,3 +1,10 @@
+// MCQ Container styles
+#mcq-container {
+  min-height: 200px;
+  position: relative;
+  margin: 1rem 0;
+}
+
 // Card styles
 .card {
   margin-bottom: 1rem;
@@ -42,4 +49,16 @@
 .list-group-item.incorrect {
   background-color: #f8d7da;
   color: #721c24;
+}
+
+// Card styles
+.mcq-card {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  
+  &.active {
+    display: block;
+    opacity: 1;
+  }
 }

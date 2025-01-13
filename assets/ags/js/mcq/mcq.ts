@@ -1,3 +1,81 @@
+// console.log('Custom script loaded from mcq.ts');
+
+// // Function to initialize MCQ elements
+// function initializeMCQ(mcqElement: HTMLElement) {
+//   const mcqId = mcqElement.id;
+//   const checkButton = mcqElement.querySelector('.check-button') as HTMLButtonElement;
+//   const nextButton = mcqElement.querySelector('.next-button') as HTMLButtonElement;
+//   const resultElement = mcqElement.querySelector('.result') as HTMLElement;
+//   const options = mcqElement.querySelectorAll('.option');
+
+//   // Function to check the selected answer
+//   function checkAnswer() {
+//     const selectedOption = mcqElement.querySelector('.option.selected') as HTMLElement;
+//     if (selectedOption) {
+//       const isCorrect = selectedOption.classList.contains('correct');
+//       resultElement.textContent = isCorrect ? 'Correct!' : 'Incorrect!';
+//       resultElement.style.color = isCorrect ? 'green' : 'red';
+//       checkButton.style.display = 'none';
+//       nextButton.style.display = 'block';
+//     } else {
+//       resultElement.textContent = 'Please select an option.';
+//       resultElement.style.color = 'orange';
+//     }
+//   }
+
+//   // Function to move to the next question
+//   function nextQuestion() {
+//     // Reset classes and text content
+//     options.forEach((option) => {
+//       option.classList.remove('selected');
+//     });
+//     resultElement.textContent = '';
+
+//     // Hide next button and show check button
+//     nextButton.style.display = 'none';
+//     checkButton.style.display = 'block';
+
+//     // Move to the next question or end
+//     const nextMCQ = mcqElement.nextElementSibling as HTMLElement;
+//     if (nextMCQ) {
+//       mcqElement.style.display = 'none';
+//       nextMCQ.style.display = 'block';
+//     } else {
+//       // Handle the end of MCQs, e.g., display a message or reload
+//       const endMessage = document.createElement('p');
+//       endMessage.textContent = 'All questions completed!';
+//       mcqElement.parentElement?.appendChild(endMessage);
+//     }
+//   }
+
+//   // Add event listeners to options
+//   options.forEach((option) => {
+//     option.addEventListener('click', () => {
+//       // Remove 'selected' class from other options
+//       options.forEach((otherOption) => {
+//         otherOption.classList.remove('selected');
+//       });
+//       // Add 'selected' class to the clicked option
+//       option.classList.add('selected');
+//     });
+//   });
+
+//   // Add event listeners to buttons
+//   checkButton.addEventListener('click', checkAnswer);
+//   nextButton.addEventListener('click', nextQuestion);
+// }
+
+// // Initialize all MCQ elements
+// document.addEventListener('DOMContentLoaded', () => {
+//   const mcqElements = document.querySelectorAll('.mcq');
+//   mcqElements.forEach((mcqElement) => {
+//     initializeMCQ(mcqElement as HTMLElement);
+//   });
+// });
+
+// console.log('MCQ script executed');
+
+//--------------------------
 class MCQ {
   private currentQuestion: number = 0;
   private totalQuestions: number = 0;
