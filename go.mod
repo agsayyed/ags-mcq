@@ -1,4 +1,4 @@
-module github.com/agsayyed/ags/mcq
+module github.com/agsayyed/mcq
 
 go 1.23.2
 
