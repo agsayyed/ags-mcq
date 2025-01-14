@@ -3,6 +3,7 @@
 {{- $alwaysOpen := false }}
 {{ partial "agsayyed/mcq" . }}
 
+<!-- Remove the contents below in production environment -->
 {{ $mcqts := resources.Get "hb/modules/agsayyed/js/mcq/mcq.ts" | js.Build (dict "targetPath" "js/mcq.js" "minify" true "target" "es2015") }}
 <script defer src="{{ $mcqts.RelPermalink }}"></script>
 

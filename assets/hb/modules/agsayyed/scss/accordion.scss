@@ -1,6 +1,6 @@
 .accordion-body form {
   margin-top: 1rem;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   text-align: center;
 }
 
@@ -28,7 +28,7 @@
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
@@ -41,7 +41,7 @@
   font-size: 1.25rem;
   color: #333;
   margin-bottom: 1rem;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   text-align: center;
 }
 
@@ -51,7 +51,7 @@
 }
 
 .accordion-header {
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1.25rem;
   background-color: #f8f9fa;
   padding: 0.75rem 1rem;
@@ -60,7 +60,7 @@
 }
 
 .accordion-button {
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1rem;
   color: #007bff;
 }
@@ -68,6 +68,7 @@
 .accordion-button:hover {
   color: #0056b3;
 }
+
 .accordion-collapse {
   border: 1px solid #ddd;
   border-top: none;

@@ -1,6 +1,30 @@
 // Override the Bootstrap and HB SCSS variables.
 // See https://github.com/twbs/bootstrap/blob/main/scss/_variables.scss.
-// See https://github.com/twbs/bootstrap/blob/main/scss/_variables-dark.scss.
-// $primary: red;
-//$accordion-button-color: #405392;
-//$accordion-button-bg: #228060;
+
+// Primary color (affects buttons, progress bar, active states)
+$primary: #4299e1; // Modern blue
+
+// Progress bar specific
+$progress-bar-bg: #63b3ed; // Lighter blue for progress
+$progress-height: 0.6rem;
+
+// Button colors
+$btn-padding-x: 1.5rem;
+$btn-border-radius: 0.5rem;
+
+// Primary button (Next button)
+$btn-primary-color: #fff;
+$btn-primary-bg: #4299e1;
+$btn-primary-border: #4299e1;
+$btn-primary-hover-bg: #3182ce;
+
+// Secondary button (Start Over button)
+$btn-secondary-color: #fff;
+$btn-secondary-bg: #718096;
+$btn-secondary-border: #718096;
+$btn-secondary-hover-bg: #4a5568;
+
+// List group active state
+$list-group-active-bg: #4299e1;
+$list-group-active-border-color: #4299e1;
+$list-group-hover-bg: #ebf8ff; // Very light blue for hover
