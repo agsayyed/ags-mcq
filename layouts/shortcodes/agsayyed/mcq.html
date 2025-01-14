@@ -1,0 +1,11 @@
+{{- $data := "" }}
+{{- $flush := false }}
+{{- $alwaysOpen := false }}
+{{ partial "agsayyed/mcq" . }}
+
+{{ $mcqts := resources.Get "hb/modules/agsayyed/js/mcq/mcq.ts" | js.Build (dict "targetPath" "js/mcq.js" "minify" true "target" "es2015") }}
+<script defer src="{{ $mcqts.RelPermalink }}"></script>
+
+<script>
+console.log("MCQ shortcode loaded and executed");
+</script>

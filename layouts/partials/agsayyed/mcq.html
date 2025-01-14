@@ -33,7 +33,7 @@
 
                 <div id="mcq-container">
                     {{- range $index, $item := $mcqData }}
-                    <div class="card mcq-card" style="display: none;" data-answer="{{ $item.answer }}">
+                    <div class="card mcq-card" style="display: none; "data-answer="{{ $item.answer }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ $item.question }}</h5>
                             <ul class="list-group list-group-flush">

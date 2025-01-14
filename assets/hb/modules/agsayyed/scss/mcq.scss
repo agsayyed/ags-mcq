@@ -1,0 +1,117 @@
+// // MCQ Container styles
+// #mcq-container {
+//   min-height: 200px;
+//   position: relative;
+//   margin: 1rem 0;
+
+//   // Card display logic
+//   .mcq-card {
+//     display: none;
+//     margin-bottom: 1rem;
+//     transition: opacity 0.3s ease-in-out;
+    
+//     &:first-child {
+//       display: block;
+//     }
+    
+//     &.active {
+//       display: block;
+//       opacity: 1;
+//     }
+//   }
+
+//   // List items styling
+//   .list-group-item {
+//     cursor: pointer;
+//     padding: 0.75rem 1.25rem;
+//     border: 1px solid #ddd;
+//     margin-bottom: 0.5rem;
+//     transition: all 0.3s ease;
+    
+//     &:hover {
+//       background-color: #f8f9fa;
+//     }
+    
+//     &.active {
+//       background-color: #0d6efd;
+//       color: white;
+//       border-color: #0d6efd;
+//     }
+    
+//     &.correct {
+//       background-color: #198754;
+//       color: white;
+//     }
+    
+//     &.incorrect {
+//       background-color: #dc3545;
+//       color: white;
+//     }
+//   }
+// }
+
+// // Card components
+// .card-body {
+//   padding: 1rem;
+// }
+
+// .card-title {
+//   font-size: 1.25rem;
+//   margin-bottom: 0.75rem;
+// }
+
+// // Progress and score
+// .progress {
+//   margin-bottom: 1rem;
+// }
+
+// #score {
+//   margin-top: 1rem;
+//   font-weight: bold;
+// }
+
+// Card styles
+.card {
+  margin-bottom: 1rem;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+// List group item styles
+.list-group-item {
+  cursor: pointer;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #ddd;
+  margin-bottom: 0.5rem;
+}
+
+// Hover effect for list group items
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+// Active state for selected options
+.list-group-item.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+// Correct answer indication
+.list-group-item.correct {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+// Incorrect answer indication
+.list-group-item.incorrect {
+  background-color: #f8d7da;
+  color: #721c24;
+}
