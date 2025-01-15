@@ -1,0 +1,292 @@
+import { MCQConfig } from '../config/mcq.config';
+import { MCQStateManager } from './MCQState';
+import { FeedbackManager } from '../components/FeedbackManager';
+import { UIManager } from '../managers/UIManager';
+import { MCQState } from '../types/mcq.types';  // Add this import
+
+export class MCQController {
+  private stateManager: MCQStateManager;
+  private feedbackManager: FeedbackManager;
+  private uiManager: UIManager;
+
+  constructor() {
+    const totalQuestions = this.getTotalQuestions(); // Now will use the method defined below
+    this.stateManager = new MCQStateManager(totalQuestions);
+    this.feedbackManager = new FeedbackManager();
+    this.uiManager = new UIManager();
+    this.setupEventListeners();
+    this.initializeUI();
+    this.setupGlobalHandlers();
+
+    // Subscribe to state changes
+    this.stateManager.subscribe((state) => {
+      this.updateUI(state);  // Update UI when state changes
+    });
+  }
+
+  private getTotalQuestions(): number {
+    const cards = document.querySelectorAll('.mcq-card');
+    return cards.length;
+  }
+
+  private initializeUI() {
+    console.log('Controller: Initializing UI');
+    this.hideAllCards();
+    this.showCard(0);
+  }
+
+  private updateQuestionNumber(index: number) {
+    const cards = document.querySelectorAll('.mcq-card');
+    const currentCard = cards[index] as HTMLElement;
+    const questionNumber = currentCard.querySelector('.question-number');
+    if (questionNumber) {
+      questionNumber.textContent = `Question ${index + 1}: `;
+    }
+  }
+
+  private showFirstCard() {
+    const cards = document.querySelectorAll('.mcq-card');
+    if (cards.length > 0) {
+      (cards[0] as HTMLElement).style.display = 'block';
+    }
+  }
+
+  private checkAnswer(element: HTMLElement): boolean {
+    console.log('Controller: Checking answer');
+    // Remove previous selection styling
+    const siblings = element.parentElement!.children;
+    Array.from(siblings).forEach(sibling => {
+      sibling.classList.remove('active', 'correct', 'incorrect');
+    });
+
+    // Add active class to selected element
+    element.classList.add('active');
+
+    // Get correct answer from data attribute
+    const card = element.closest('.mcq-card');
+    const correctAnswer = card?.getAttribute('data-answer');
+    const isCorrect = element.innerText.trim() === correctAnswer?.trim();
+    console.log('Controller: Answer is', isCorrect ? 'correct' : 'incorrect');
+
+    // Add appropriate styling
+    element.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+    // Update state
+    this.stateManager.updateAnswer({
+      question: card?.querySelector('.card-title')?.textContent || '',
+      userAnswer: element.innerText.trim(),
+      correctAnswer: correctAnswer || '',
+      isCorrect,
+      feedback: card?.getAttribute('data-feedback') || ''
+    });
+
+    return isCorrect;
+  }
+
+  private handleAnswer(element: HTMLElement) {
+    const isCorrect = this.checkAnswer(element);
+    const feedback = element.closest('.mcq-card')?.getAttribute('data-feedback');
+
+    if (MCQConfig.showInstantFeedback) {
+      this.feedbackManager.showFeedback(isCorrect, feedback);
+    }
+
+    // Enable next button after answering
+    const nextButton = document.getElementById('next-button');
+    if (nextButton) {
+      nextButton.removeAttribute('disabled');
+    }
+  }
+
+  private setupEventListeners() {
+    // Remove onclick from HTML and handle here only 
+    const nextButton = document.getElementById('next-button');
+    if (nextButton) {
+      // Remove any existing listeners first
+      nextButton.replaceWith(nextButton.cloneNode(true));
+      const newNextButton = document.getElementById('next-button');
+      newNextButton?.addEventListener('click', () => this.handleNextQuestion());
+    }
+
+    // Handle start over button clicks
+    const startOverButton = document.getElementById('start-over-button');
+    if (startOverButton) {
+      startOverButton.replaceWith(startOverButton.cloneNode(true));
+      const newStartOverButton = document.getElementById('start-over-button');
+      newStartOverButton?.addEventListener('click', () => this.handleStartOver());
+    }
+
+    // Handle option selection
+    const options = document.querySelectorAll('.list-group-item');
+    options.forEach(option => {
+      // Remove onclick attribute
+      option.removeAttribute('onclick');
+      option.addEventListener('click', (e) => {
+        const element = e.currentTarget as HTMLElement;
+        this.handleAnswer(element);
+      });
+    });
+  }
+
+  private handleNextQuestion() {
+    console.log('Controller: Handling next question');
+    const currentIndex = this.stateManager.getCurrentQuestion();
+    console.log('Controller: Current index:', currentIndex);
+
+    // Check if we're at the last question
+    if (currentIndex >= this.getTotalQuestions()) {
+      console.log('Controller: Quiz complete');
+      this.hideAllCards();
+      this.handleQuizComplete();
+      return;
+    }
+
+    // Move to next question in state
+    if (this.stateManager.moveToNextQuestion()) {
+      const nextIndex = this.stateManager.getCurrentQuestion();
+      console.log('Controller: Moving to next card:', nextIndex);
+      this.showCard(nextIndex - 1); // Adjust for 0-based array index
+    }
+  }
+
+  private handleQuizComplete() {
+    console.log('Controller: Quiz completed');
+    const startOverButton = document.getElementById('start-over-button');
+    const nextButton = document.getElementById('next-button');
+    if (startOverButton) startOverButton.style.display = 'block';
+    if (nextButton) nextButton.style.display = 'none';
+
+    // First show the completion card in the card area
+    this.showCompletionCard();
+    // Then show detailed summary below
+    this.showDetailedSummary();
+  }
+
+  private showCompletionCard() {
+    const container = document.getElementById('mcq-container');
+    if (container) {
+      const totalQuestions = this.getTotalQuestions();
+      const correctAnswers = this.stateManager.getCorrectAnswers();
+      const percentageCorrect = (correctAnswers / totalQuestions) * 100;
+
+      // Find existing card or create new one
+      let completionCard = container.querySelector('.completion-card') as HTMLElement;
+      if (!completionCard) {
+        completionCard = document.createElement('div');
+        completionCard.className = 'card mcq-card completion-card';
+      }
+
+      completionCard.innerHTML = `
+          <div class="card-body">
+              <h5 class="card-title mb-4">Quiz Complete! 🎉</h5>
+              <div class="alert ${percentageCorrect >= 70 ? 'alert-success' : 'alert-info'}">
+                  <h4 class="alert-heading mb-3">Your Results</h4>
+                  <p class="mb-2">You got ${correctAnswers} out of ${totalQuestions} questions correct.</p>
+                  <p class="mb-0">Final Score: ${percentageCorrect.toFixed(1)}%</p>
+              </div>
+              <hr>
+              <p class="text-muted mt-3">
+                  Click "Start Over" to try again, or scroll down to review your answers.
+              </p>
+          </div>
+      `;
+
+      // Replace the last shown card with completion card
+      this.hideAllCards();
+      container.insertBefore(completionCard, container.firstChild);
+      completionCard.style.display = 'block';
+    }
+  }
+
+  private showDetailedSummary() {
+    const summaryContainer = document.getElementById('summary-container');
+    if (summaryContainer) {
+      const answers = this.stateManager.getState().answers;
+      const detailedSummary = answers.map((answer, index) => `
+          <div class="card mb-2">
+              <div class="card-body">
+                  <h6>Question ${index + 1}</h6>
+                  <p>${answer.question}</p>
+                  <p class="text-${answer.isCorrect ? 'success' : 'danger'}">
+                      Your answer: ${answer.userAnswer}<br>
+                      Correct answer: ${answer.correctAnswer}
+                  </p>
+                  ${answer.feedback ? `<p class="text-muted">${answer.feedback}</p>` : ''}
+              </div>
+          </div>
+      `).join('');
+
+      summaryContainer.innerHTML = detailedSummary;
+    }
+  }
+
+  private handleStartOver() {
+    // Clear all cards and reset state
+    this.hideAllCards();
+    this.stateManager.reset();
+
+    // Reset UI elements
+    const startOverButton = document.getElementById('start-over-button');
+    const nextButton = document.getElementById('next-button');
+    const summaryContainer = document.getElementById('summary-container');
+
+    if (startOverButton) startOverButton.style.display = 'none';
+    if (nextButton) nextButton.style.display = 'block';
+    if (summaryContainer) summaryContainer.innerHTML = '';
+
+    // Remove completion card
+    const completionCard = document.querySelector('.completion-card');
+    if (completionCard) {
+      completionCard.remove();
+    }
+
+    // Show first question
+    this.showCard(0);
+  }
+
+  private updateUI(state: MCQState) {
+    // Update progress bar
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+      const progress = (state.currentQuestion / state.totalQuestions) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
+
+    // Update score with "Attempted Questions" label
+    const score = document.getElementById('score');
+    if (score) {
+      score.textContent = `Attempted Questions: ${state.currentQuestion} / ${state.totalQuestions}`;
+    }
+  }
+
+  private setupGlobalHandlers() {
+    // Remove global handlers as we're using direct event listeners
+    console.log('Setting up global handlers');
+    window.selectOption = null as any;
+    window.nextQuestion = null as any;
+    window.startOver = null as any;
+  }
+
+  private hideAllCards() {
+    const cards = document.querySelectorAll('.mcq-card');
+    cards.forEach(card => (card as HTMLElement).style.display = 'none');
+  }
+
+  private showCard(index: number) {
+    console.log('Controller: Showing card at index:', index);
+    this.hideAllCards();
+    const cards = document.querySelectorAll('.mcq-card');
+    if (cards[index]) {
+      (cards[index] as HTMLElement).style.display = 'block';
+      this.updateQuestionNumber(index);
+    }
+  }
+}
+
+// Initialize when DOM is ready
+window.addEventListener('load', () => {
+  if (document.querySelector('.mcq-card')) {
+    console.log('Controller: Initializing MCQ Controller');
+    new MCQController();
+  }
+});

@@ -1,6 +1,6 @@
 // MCQ Container styles
 #mcq-container {
-  min-height: 200px;
+  min-height: 300px;
   position: relative;
   margin: 1rem 0;
 }
@@ -69,6 +69,10 @@
 .feedback-box {
   margin-top: 1rem;
   transition: all 0.3s ease;
+  display: none;
+  &.show {
+    display: block;
+  }
 }
 
 .feedback-text {
@@ -91,5 +95,43 @@
     &:last-child {
       border-bottom: none;
     }
+  }
+}
+
+.mcq-card {
+  display: none; // Default state
+  margin-bottom: 1rem;
+
+  &.active {
+    display: block; // Show when active
+  }
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+#progress-bar {
+  transition: width 0.3s ease;
+}
+
+.list-group-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--list-group-hover-bg);
+  }
+
+  &.selected {
+    background-color: var(--list-group-active-bg);
+    color: white;
+  }
+}
+
+#start-over-button {
+  display: none;
+  &.show {
+    display: block;
   }
 }
