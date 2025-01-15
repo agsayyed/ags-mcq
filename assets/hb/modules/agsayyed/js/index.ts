@@ -1,16 +1,17 @@
+log.separator('index.ts: starting importing modules one by one')
 import './types/mcq.types';
 import './config/mcq.config';
 import './components/FeedbackManager';
 import './mcq/MCQState';
-import { MCQController } from './mcq/MCQController';
+import './mcq/MCQController';
+import log from './utils/logger';
+import './initialise.ts';
 
-declare global {
-  interface Window {
-    selectOption: (element: HTMLElement) => void;
-    nextQuestion: () => void;
-    startOver: () => void;
-  }
-}
+log.debug('/types/mcq.types loaded\n'
+  + '/config/mcq.config loaded\n'
+  + '/components/FeedbackManager loaded\n'
+  + '/mcq/MCQState loaded\n'
+  + '/mcq/MCQController loaded\n'
+  + '/initialise.ts loaded\n');
 
-// Remove the event listener from here as it's now in MCQController
-console.log('MCQ Module loaded');
+log.separator('index.ts: Finish Module importing');

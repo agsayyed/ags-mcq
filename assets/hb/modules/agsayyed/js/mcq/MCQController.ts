@@ -3,20 +3,21 @@ import { MCQStateManager } from './MCQState';
 import { FeedbackManager } from '../components/FeedbackManager';
 import { UIManager } from '../managers/UIManager';
 import { MCQState } from '../types/mcq.types';  // Add this import
+import log from '../utils/logger';  // Import the logger
 
 export class MCQController {
   private stateManager: MCQStateManager;
   private feedbackManager: FeedbackManager;
   private uiManager: UIManager;
 
-  constructor() {
-    const totalQuestions = this.getTotalQuestions(); // Now will use the method defined below
+  constructor(totalQuestions: number) {
+    log.separator('MCQController: Initializing');  // Use separator method
     this.stateManager = new MCQStateManager(totalQuestions);
     this.feedbackManager = new FeedbackManager();
     this.uiManager = new UIManager();
     this.setupEventListeners();
     this.initializeUI();
-    this.setupGlobalHandlers();
+
 
     // Subscribe to state changes
     this.stateManager.subscribe((state) => {
@@ -30,7 +31,7 @@ export class MCQController {
   }
 
   private initializeUI() {
-    console.log('Controller: Initializing UI');
+    log.debug('Controller: Initializing UI');
     this.hideAllCards();
     this.showCard(0);
   }
@@ -52,7 +53,7 @@ export class MCQController {
   }
 
   private checkAnswer(element: HTMLElement): boolean {
-    console.log('Controller: Checking answer');
+    log.debug('Controller: Checking answer');
     // Remove previous selection styling
     const siblings = element.parentElement!.children;
     Array.from(siblings).forEach(sibling => {
@@ -66,7 +67,7 @@ export class MCQController {
     const card = element.closest('.mcq-card');
     const correctAnswer = card?.getAttribute('data-answer');
     const isCorrect = element.innerText.trim() === correctAnswer?.trim();
-    console.log('Controller: Answer is', isCorrect ? 'correct' : 'incorrect');
+    log.debug('Controller: Answer is', isCorrect ? 'correct' : 'incorrect');
 
     // Add appropriate styling
     element.classList.add(isCorrect ? 'correct' : 'incorrect');
@@ -129,13 +130,13 @@ export class MCQController {
   }
 
   private handleNextQuestion() {
-    console.log('Controller: Handling next question');
+    log.debug('Controller: Handling next question');
     const currentIndex = this.stateManager.getCurrentQuestion();
-    console.log('Controller: Current index:', currentIndex);
+    log.debug('Controller: Current index:', currentIndex);
 
     // Check if we're at the last question
     if (currentIndex >= this.getTotalQuestions()) {
-      console.log('Controller: Quiz complete');
+      log.debug('Controller: Quiz complete');
       this.hideAllCards();
       this.handleQuizComplete();
       return;
@@ -144,13 +145,13 @@ export class MCQController {
     // Move to next question in state
     if (this.stateManager.moveToNextQuestion()) {
       const nextIndex = this.stateManager.getCurrentQuestion();
-      console.log('Controller: Moving to next card:', nextIndex);
+      log.debug('Controller: Moving to next card:', nextIndex);
       this.showCard(nextIndex - 1); // Adjust for 0-based array index
     }
   }
 
   private handleQuizComplete() {
-    console.log('Controller: Quiz completed');
+    log.debug('Controller: Quiz completed');
     const startOverButton = document.getElementById('start-over-button');
     const nextButton = document.getElementById('next-button');
     if (startOverButton) startOverButton.style.display = 'block';
@@ -259,13 +260,7 @@ export class MCQController {
     }
   }
 
-  private setupGlobalHandlers() {
-    // Remove global handlers as we're using direct event listeners
-    console.log('Setting up global handlers');
-    window.selectOption = null as any;
-    window.nextQuestion = null as any;
-    window.startOver = null as any;
-  }
+
 
   private hideAllCards() {
     const cards = document.querySelectorAll('.mcq-card');
@@ -273,7 +268,7 @@ export class MCQController {
   }
 
   private showCard(index: number) {
-    console.log('Controller: Showing card at index:', index);
+    log.debug('Controller: Showing card at index:', index);
     this.hideAllCards();
     const cards = document.querySelectorAll('.mcq-card');
     if (cards[index]) {
@@ -283,10 +278,4 @@ export class MCQController {
   }
 }
 
-// Initialize when DOM is ready
-window.addEventListener('load', () => {
-  if (document.querySelector('.mcq-card')) {
-    console.log('Controller: Initializing MCQ Controller');
-    new MCQController();
-  }
-});
+

@@ -1,24 +1,47 @@
+{{- /* Initialize variables */ -}}
 {{- $data := "" }}
 {{- $flush := false }}
 {{- $alwaysOpen := false }}
+
+{{- /* Check if named parameters are used */ -}}
 {{- if .IsNamedParams }}
+  {{- /* Get the 'data' parameter */ -}}
   {{- $data = .Get "data" }}
+  {{- /* Check and get the 'flush' parameter if it exists */ -}}
   {{- if isset .Params "flush" }}{{ $flush = .Get "flush" }}{{ end }}
+  {{- /* Check and get the 'alwaysOpen' parameter if it exists */ -}}
   {{- if isset .Params "alwaysOpen" }}
     {{ $alwaysOpen = .Get "alwaysOpen" }}
   {{ end }}
 {{- else }}
+  {{- /* Get the first positional parameter as 'data' */ -}}
   {{- $data = .Get 0 }}
 {{- end }}
 
+{{- /* Split the 'data' parameter into parts */ -}}
 {{- $parts := split $data "." }}
+{{- /* Validate the 'data' parameter format */ -}}
 {{- if lt (len $parts) 2 }}
   {{- errorf "Invalid data key: %s (expected something like 'qa.mcq')" $data }}
 {{- end }}
 
+{{- /* Extract folder and file names from the 'data' parameter */ -}}
 {{- $folder := index $parts 0 }}
 {{- $file := index $parts 1 }}
+
+{{- /* Retrieve the MCQ data from the site data */ -}}
 {{- $mcqData := index (index site.Data $folder) $file }}
+
+{{- /* Logging */ -}}
+<script>
+  console.log("Logging from mcq.html partial");
+  console.log("Data parameter:", "{{ $data }}");
+  console.log("Folder:", "{{ $folder }}");
+  console.log("File:", "{{ $file }}");
+  console.log("MCQ Data found:", "{{ if $mcqData }}true{{ else }}false{{ end }}");
+  console.log("Logging end from mcq.html partial");
+  console.log("------------------------------------------");
+</script> {{- /* Accordion structure */ -}}
 
 
 <div class="accordion" id="mcqAccordion">
@@ -31,7 +54,7 @@
         data-bs-target="#collapseOne"
         aria-expanded="false"
         aria-controls="collapseOne">
-        Multiple Choice Questions
+        Multiple Choice Questions And Answers
       </button>
     </h2>
     <div

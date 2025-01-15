@@ -7,8 +7,6 @@
 - To start with clone this repository and start creating the module.
 - The folder name is changed from `ags-base` to `ags-base-template` and again changed to `ags-module-template` to make it more generic.
 
-
-
 ## Setting Up the Development Environment
 
 - Prerequisites:
@@ -406,9 +404,7 @@ This module is released under the MIT License.
   - Hugo Module Proxy: Hugo uses a module proxy to fetch modules. Once your module is on GitHub and tagged, it should be automatically available through the proxy.
   - Testing: You can test if your module is accessible by adding it to a fresh Hugo site without using a `replace` directive. If Hugo can download the module successfully, it's working correctly.
 
-
 [//]: # '! First I intneded to make this folder to develop a module but changed to a `template` folder to make it more generic. The above information is for the `ags-module-template` module While below was intended for previous `ags-base` module. Correct it and followt the tod convention so that it is easy to understand.'
-
 
 ---
 
@@ -527,7 +523,6 @@ This alert is from ags-utils, using ags-base!
 ## License
 
 This module is released under the MIT License.
-
 
 ### Local Development and Testing
 
