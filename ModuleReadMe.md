@@ -72,15 +72,14 @@ The questions and answers are dynamically populated from the `mcqData` Go variab
 - Purpose: Acts as a container for all MCQ cards.
 - Dynamic Data: The container's content is populated dynamically using Hugo's templating syntax `({{ ... }})` and iterates over the `mcqData` array.
   
-- Loop Through MCQs
+- Loop Through MCQs `{{- range $index, $item := $mcqData }}`
 
-`{{- range $index, $item := $mcqData }}`
-
-Purpose: Iterates through each item in mcqData. Each $item represents one MCQ.
+Purpose: Iterates through each item in `mcqData`. Each `$item` represents one MCQ.
 
 Hugo Templating:
-  $index: The index of the current MCQ.
-  $item: The current MCQ object containing properties like question, options, and answer.
+
+- `$index`: The index of the current MCQ.
+- `$item` : The current MCQ object containing properties like question, options, and answer.
 
 ---
 
@@ -106,32 +105,95 @@ Hugo Templating:
 
 ```bash
 js/
-├── types/              # Type definitions
-│   └── mcq.types.ts    # Interfaces for Question, Answer, State
-├── models/            
-│   └── Question.ts     # Question model implementation
-├── managers/
-│   └── UIManager.ts    # UI operations abstraction
-├── mcq/
-│   ├── MCQState.ts     # State management + Observer pattern
-│   └── MCQController.ts # Main controller + coordination
-└── config/
-    └── mcq.config.ts   # Configuration options
+├── components
+│   └── FeedbackManager.ts  # Manages feedback display logic
+├── config
+│   └── mcq.config.ts       # Configuration options for the MCQ module
+├── index.ts                # Entry point for the module
+├── initialise.ts           # Initialization logic for the MCQ module
+├── managers
+│   └── UIManager.ts        # Handles UI operations and updates
+├── mcq
+│   ├── MCQController.ts    # Main controller for the MCQ module
+│   ├── MCQState.ts         # State management for the MCQ module
+│   └── sounds              # Directory for sound files
+├── models
+│   └── Question.ts         # Model implementation for questions
+├── types
+│   └── mcq.types.ts        # Type definitions for the MCQ module
+└── utils
+   └── logger.ts           # Utility for logging
+```
+
+### How Hugo HbStack Site Process Custom Scripts and Styles
+
+- `index.ts` file in `hb/modules/vendor` laods scripts and styles for the MCQ module.
+
+```typescript
+log.separator('index.ts: starting importing modules one by one')
+import './types/mcq.types';
+import './config/mcq.config';
+import './components/FeedbackManager';
+import './mcq/MCQState';
+import './mcq/MCQController';
+import log from './utils/logger';
+import './mcqMain.ts';
+
+log.debug('/types/mcq.types loaded\n'
+  + '/config/mcq.config loaded\n'
+  + '/components/FeedbackManager loaded\n'
+  + '/mcq/MCQState loaded\n'
+  + '/mcq/MCQController loaded\n'
+  + '/mcqMain.ts loaded\n');
+
+log.separator('index.ts: Finish Module importing');
+```
+
+> Note: `logger` is used to get the debugging information in the console. It is installed as dev dependency and , it is also extended to create a new `separator` function, it is shown here. The last file loaded is `./mcqmMain.ts`. This is the file where initialsaion of the MCQ module is done. Conventionaly its name is kept `main.ts` but Hugo HbStie does not accept as it conflicts with probably existing `main.ts`.
+
+```typescript
+import log from 'loglevel';
+
+interface ExtendedLogger extends log.RootLogger {
+  separator: (message: string) => void;
+}
+
+const extendedLog: ExtendedLogger = log as ExtendedLogger;
+
+// Set the logging level based on the environment
+if (process.env.NODE_ENV === 'production') {
+  log.setLevel('warn');
+} else {
+  log.setLevel('debug');
+}
+
+// Add a method to log a separator line
+extendedLog.separator = (message: string) => {
+  log.debug(`\n--- ${message} ---\n`);
+};
+
+export default extendedLog;
 ```
 
 ## 3. Initialization Flow
 
-- Page Load
+- Page Loads, initiliasing MCQ module
 
 ```typescript
-   window.addEventListener('load', () => {
-     if (document.querySelector('.mcq-card')) {
-       new MCQController();
-     }
-   });
+import { MCQController } from './mcq/MCQController';
+import log from './utils/logger';  // Import the logger
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.querySelector('.mcq-card')) {
+    log.separator('mcqMain.ts: Initializing MCQ Controller');  // Use separator method
+    const totalQuestions = document.querySelectorAll('.mcq-card').length;
+    new MCQController(totalQuestions);  // Initialize MCQController without using an identifier
+  }
+});
 ```
 
-- Controller Initialization
+- In turns MCQController Initialises itself
 
 ```typescript
    constructor() {
@@ -270,11 +332,83 @@ MCQConfig allows customization:
    - Lazy loading
    - State caching
 
-```
-
 ## 3. File Structure & Responsibilities
 
 ### Types (`types/mcq.types.ts`)
 
 - Defines interfaces for Questions, Answers, State
 
+### Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant MCQController
+    participant MCQStateManager
+    participant FeedbackManager
+    participant UIManager
+
+    Note over User, MCQController: User interacts with the MCQ system
+    User->>MCQController: Initialize MCQController(totalQuestions)
+    activate MCQController
+    MCQController->>MCQStateManager: Initialize MCQStateManager(totalQuestions)
+    activate MCQStateManager
+    MCQStateManager-->>MCQController: Return MCQStateManager instance
+    deactivate MCQStateManager
+
+    MCQController->>FeedbackManager: Initialize FeedbackManager
+    activate FeedbackManager
+    FeedbackManager-->>MCQController: Return FeedbackManager instance
+    deactivate FeedbackManager
+
+    MCQController->>UIManager: Initialize UIManager
+    activate UIManager
+    UIManager-->>MCQController: Return UIManager instance
+    deactivate UIManager
+
+    MCQController->>MCQController: setupEventListeners()
+    MCQController->>MCQController: initializeUI()
+
+    Note over MCQController, MCQStateManager: Subscribe to state changes
+    MCQController->>MCQStateManager: subscribe(listener)
+    MCQStateManager-->>MCQController: Return unsubscribe function
+
+    Note over MCQController, UIManager: Initialize UI
+    MCQController->>UIManager: hideAllCards()
+    MCQController->>UIManager: showCard(0)
+
+    loop For each question
+        User->>MCQController: Answer question
+        MCQController->>MCQStateManager: updateAnswer(answer)
+        activate MCQStateManager
+        MCQStateManager->>MCQStateManager: Update state
+        MCQStateManager->>MCQStateManager: notify()
+        MCQStateManager-->>MCQController: Notify state change
+        deactivate MCQStateManager
+
+        MCQController->>UIManager: updateUI(state)
+    end
+
+    Note over MCQController, MCQStateManager: Move to next question
+    User->>MCQController: Next question
+    MCQController->>MCQStateManager: moveToNextQuestion()
+    activate MCQStateManager
+    MCQStateManager->>MCQStateManager: Update state
+    MCQStateManager->>MCQStateManager: notify()
+    MCQStateManager-->>MCQController: Notify state change
+    deactivate MCQStateManager
+
+    MCQController->>UIManager: updateUI(state)
+
+    Note over MCQController, MCQStateManager: Reset the quiz
+    User->>MCQController: Reset quiz
+    MCQController->>MCQStateManager: reset()
+    activate MCQStateManager
+    MCQStateManager->>MCQStateManager: Reset state
+    MCQStateManager->>MCQStateManager: notify()
+    MCQStateManager-->>MCQController: Notify state change
+    deactivate MCQStateManager
+
+    MCQController->>UIManager: updateUI(state)
+    deactivate MCQController
+```

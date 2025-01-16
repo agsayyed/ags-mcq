@@ -14,3 +14,6 @@ export class Question implements MCQQuestion {
     return selectedOption.trim() === this.answer.trim();
   }
 }
+
+
+

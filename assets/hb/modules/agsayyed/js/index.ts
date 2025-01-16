@@ -5,7 +5,7 @@ import './components/FeedbackManager';
 import './mcq/MCQState';
 import './mcq/MCQController';
 import log from './utils/logger';
-import './initialise.ts';
+import './mcqMain';
 
 log.debug('/types/mcq.types loaded\n'
   + '/config/mcq.config loaded\n'
