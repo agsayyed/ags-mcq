@@ -54,9 +54,21 @@
 
 // Active state for selected options
 .list-group-item.active {
-  background-color: #007bff;
+  //background-color: #007bff;
   color: white;
   border-color: #007bff;
+}
+
+// Ensure text color remains visible when pressed
+.list-group-item.active:active {
+  background-color: #0056b3; // Darker shade for pressed state
+  color: white; // Ensure text color remains white
+}
+
+// Ensure text color remains visible when hovering over an active item
+.list-group-item.active:hover {
+  background-color: #007bff; // Keep the same background color
+  color: white; // Ensure text color remains white
 }
 
 // Button styling
@@ -64,6 +76,8 @@
 #start-over-button {
   min-width: 100px;
   margin: 1rem 0;
+  position: relative; // Ensure buttons are positioned relative to their container
+  z-index: 1; // Ensure buttons are above other elements
 }
 
 .feedback-box {
@@ -101,11 +115,7 @@
 .mcq-card {
   display: none; // Default state
   margin-bottom: 1rem;
-
-  &.active {
-    display: block; // Show when active
-  }
-  position: absolute;
+  position: relative; // Change from absolute to relative
   width: 100%;
   left: 0;
   top: 0;

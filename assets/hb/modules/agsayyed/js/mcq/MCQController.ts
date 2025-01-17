@@ -241,6 +241,12 @@ export class MCQController {
       completionCard.remove();
     }
 
+    // Reset all list-group-item elements
+    const options = document.querySelectorAll('.list-group-item');
+    options.forEach(option => {
+      option.classList.remove('active', 'correct', 'incorrect');
+    });
+
     // Show first question
     this.showCard(0);
   }

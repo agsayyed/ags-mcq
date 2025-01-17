@@ -6,12 +6,7 @@ interface ExtendedLogger extends log.RootLogger {
 
 const extendedLog: ExtendedLogger = log as ExtendedLogger;
 
-// Set the logging level based on the environment
-if (process.env.NODE_ENV === 'production') {
-  log.setLevel('warn');
-} else {
-  log.setLevel('debug');
-}
+console.log('From looger.ts: Environment:', process.env.NODE_ENV);
 
 // Add a method to log a separator line
 extendedLog.separator = (message: string) => {
