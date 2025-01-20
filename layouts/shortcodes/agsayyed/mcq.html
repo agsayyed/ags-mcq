@@ -5,7 +5,14 @@
 
 <script>
 window.HUGO_ENVIRONMENT = "{{ hugo.Environment }}";
-console.debug("/shortcode/mcq.html:HUGO_ENVIRONMENT", window.HUGO_ENVIRONMENT, "passed from script with -e flag");
-console.debug("/shortcode/mcq.html:MCQ shortcode loaded and executed");
-  console.debug("------------------------------------------");
-</script>
+</script> {{ if ne hugo.Environment "production" }}
+  <script>
+    console.debug(
+      "/shortcode/mcq.html:HUGO_ENVIRONMENT",
+      window.HUGO_ENVIRONMENT,
+      "passed from script with -e flag",
+    );
+    console.debug("/shortcode/mcq.html:MCQ shortcode loaded and executed");
+    console.debug("------------------------------------------");
+  </script>
+{{ end }}
