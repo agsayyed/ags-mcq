@@ -22,3 +22,16 @@ export interface MCQState {
   answers: UserAnswer[];
   isComplete: boolean;
 }
+
+export interface Logger {
+  debug: (message: string) => void;
+  warn: (message: string) => void;
+  separator: (message: string) => void;
+  setLevel: (level: 'debug' | 'warn') => void;
+}
+
+declare global {
+  interface Window {
+    HUGO_ENVIRONMENT?: 'development' | 'production' | 'testing';
+  }
+}

@@ -1,4 +1,4 @@
-log.separator('index.ts: starting importing modules one by one')
+console.log('index.ts: starting importing modules one by one');
 import './types/mcq.types';
 import './config/mcq.config';
 import './components/FeedbackManager';

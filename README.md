@@ -81,7 +81,7 @@ touch ags-module-template/.gitignore
 
 ### How to organise the modules
 
-- If you are building different modules belonging to different parts of the website, they can be organised in the following way:
+- If you are building different modules belonging to different parts of the website, they can be organised by creating different organisatin name, but it would lead to having many organisations ?
 
 1. For blog related modules, the name would be `github.com/agsayyed/blog/modules/navigation-bar`. This would be a module that would be used to create a navigation bar for the blog. All moduels built for the blog would follow this pattern. The structure is necessary for the so that everything is in place since the start.
 2. The top module would be `github.com/agsayyed/blog` which would be the main module for the blog. This module would import all the other modules that are required for the blog, if necessary. The rest would import this blog. A following shows how they would appear in go.mod files, the example is taken from `hbstack` modules.
