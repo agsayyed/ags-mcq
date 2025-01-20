@@ -26,6 +26,7 @@ export interface MCQState {
 export interface Logger {
   debug: (message: string) => void;
   warn: (message: string) => void;
+  error: (message: string, error?: any) => void;  // Add error method
   separator: (message: string) => void;
   setLevel: (level: 'debug' | 'warn') => void;
 }

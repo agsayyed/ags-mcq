@@ -5,15 +5,18 @@ import { UIManager } from '../managers/UIManager';
 import { MCQState } from '../types/mcq.types';  // Add this import
 import log from '../utils/mcqlogger';  // Import the logger
 import { MCQHelper } from './MCQHelper';  // Import the helper class
+import { SoundManager } from './SoundManager';  // Import the SoundManager
 
 export class MCQController {
   private stateManager: MCQStateManager;
   private feedbackManager: FeedbackManager;
   private uiManager: UIManager;
   private helper: MCQHelper;  // Add helper instance
+  private soundManager: SoundManager;  // Add sound manager instance
 
   constructor(totalQuestions: number) {
     log.debug('MCQController: Initializing');  // Use separator method
+    this.soundManager = new SoundManager();  // Initialize sound manager
     this.stateManager = new MCQStateManager(totalQuestions);
     this.feedbackManager = new FeedbackManager();
     this.uiManager = new UIManager();
@@ -87,6 +90,7 @@ export class MCQController {
   }
 
   private handleAnswer(element: HTMLElement) {
+    this.soundManager.playClickSound(); // Play the click sound using SoundManager
     const isCorrect = this.checkAnswer(element);
     const feedback = element.closest('.mcq-card')?.getAttribute('data-feedback');
 

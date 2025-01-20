@@ -21,6 +21,12 @@ export class Logger implements ILogger {
     }
   }
 
+  error(message: string, error?: any) {
+    if (this.environment !== 'production') {
+      console.error(message, error);
+    }
+  }
+
   separator(message: string) {
     console.log('--- ' + message + ' ---');
   }
