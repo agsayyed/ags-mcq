@@ -6,7 +6,7 @@ export class Logger implements ILogger {
 
   constructor(environment: string) {
     this.environment = environment;
-    this.level = 'debug'; // Default log level
+    this.level = 'debug';
   }
 
   debug(message: string) {

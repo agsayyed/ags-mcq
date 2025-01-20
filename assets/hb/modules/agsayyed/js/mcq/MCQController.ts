@@ -4,20 +4,22 @@ import { FeedbackManager } from '../components/FeedbackManager';
 import { UIManager } from '../managers/UIManager';
 import { MCQState } from '../types/mcq.types';  // Add this import
 import log from '../utils/mcqlogger';  // Import the logger
+import { MCQHelper } from './MCQHelper';  // Import the helper class
 
 export class MCQController {
   private stateManager: MCQStateManager;
   private feedbackManager: FeedbackManager;
   private uiManager: UIManager;
+  private helper: MCQHelper;  // Add helper instance
 
   constructor(totalQuestions: number) {
     log.separator('MCQController: Initializing');  // Use separator method
     this.stateManager = new MCQStateManager(totalQuestions);
     this.feedbackManager = new FeedbackManager();
     this.uiManager = new UIManager();
+    this.helper = new MCQHelper(this.stateManager);  // Initialize helper
     this.setupEventListeners();
     this.initializeUI();
-
 
     // Subscribe to state changes
     this.stateManager.subscribe((state) => {
@@ -33,7 +35,7 @@ export class MCQController {
   private initializeUI() {
     log.debug('Controller: Initializing UI');
     this.hideAllCards();
-    this.showCard(0);
+    this.showFirstCard();
   }
 
   private updateQuestionNumber(index: number) {
@@ -67,7 +69,7 @@ export class MCQController {
     const card = element.closest('.mcq-card');
     const correctAnswer = card?.getAttribute('data-answer');
     const isCorrect = element.innerText.trim() === correctAnswer?.trim();
-    log.debug('Controller: Answer is', isCorrect ? 'correct' : 'incorrect');
+    log.debug(`Controller: Answer is ${isCorrect ? 'correct' : 'incorrect'}`);
 
     // Add appropriate styling
     element.classList.add(isCorrect ? 'correct' : 'incorrect');
@@ -89,7 +91,7 @@ export class MCQController {
     const feedback = element.closest('.mcq-card')?.getAttribute('data-feedback');
 
     if (MCQConfig.showInstantFeedback) {
-      this.feedbackManager.showFeedback(isCorrect, feedback);
+      this.feedbackManager.showFeedback(isCorrect, feedback ?? undefined);
     }
 
     // Enable next button after answering
@@ -132,7 +134,7 @@ export class MCQController {
   private handleNextQuestion() {
     log.debug('Controller: Handling next question');
     const currentIndex = this.stateManager.getCurrentQuestion();
-    log.debug('Controller: Current index:', currentIndex);
+    log.debug(`Controller: Current index: ${currentIndex}`);
 
     // Check if we're at the last question
     if (currentIndex >= this.getTotalQuestions()) {
@@ -145,7 +147,7 @@ export class MCQController {
     // Move to next question in state
     if (this.stateManager.moveToNextQuestion()) {
       const nextIndex = this.stateManager.getCurrentQuestion();
-      log.debug('Controller: Moving to next card:', nextIndex);
+      log.debug(`Controller: Moving to next card: ${nextIndex}`);
       this.showCard(nextIndex - 1); // Adjust for 0-based array index
     }
   }
@@ -158,67 +160,9 @@ export class MCQController {
     if (nextButton) nextButton.style.display = 'none';
 
     // First show the completion card in the card area
-    this.showCompletionCard();
+    this.helper.showCompletionCard();
     // Then show detailed summary below
-    this.showDetailedSummary();
-  }
-
-  private showCompletionCard() {
-    const container = document.getElementById('mcq-container');
-    if (container) {
-      const totalQuestions = this.getTotalQuestions();
-      const correctAnswers = this.stateManager.getCorrectAnswers();
-      const percentageCorrect = (correctAnswers / totalQuestions) * 100;
-
-      // Find existing card or create new one
-      let completionCard = container.querySelector('.completion-card') as HTMLElement;
-      if (!completionCard) {
-        completionCard = document.createElement('div');
-        completionCard.className = 'card mcq-card completion-card';
-      }
-
-      completionCard.innerHTML = `
-          <div class="card-body">
-              <h5 class="card-title mb-4">Quiz Complete! 🎉</h5>
-              <div class="alert ${percentageCorrect >= 70 ? 'alert-success' : 'alert-info'}">
-                  <h4 class="alert-heading mb-3">Your Results</h4>
-                  <p class="mb-2">You got ${correctAnswers} out of ${totalQuestions} questions correct.</p>
-                  <p class="mb-0">Final Score: ${percentageCorrect.toFixed(1)}%</p>
-              </div>
-              <hr>
-              <p class="text-muted mt-3">
-                  Click "Start Over" to try again, or scroll down to review your answers.
-              </p>
-          </div>
-      `;
-
-      // Replace the last shown card with completion card
-      this.hideAllCards();
-      container.insertBefore(completionCard, container.firstChild);
-      completionCard.style.display = 'block';
-    }
-  }
-
-  private showDetailedSummary() {
-    const summaryContainer = document.getElementById('summary-container');
-    if (summaryContainer) {
-      const answers = this.stateManager.getState().answers;
-      const detailedSummary = answers.map((answer, index) => `
-          <div class="card mb-2">
-              <div class="card-body">
-                  <h6>Question ${index + 1}</h6>
-                  <p>${answer.question}</p>
-                  <p class="text-${answer.isCorrect ? 'success' : 'danger'}">
-                      Your answer: ${answer.userAnswer}<br>
-                      Correct answer: ${answer.correctAnswer}
-                  </p>
-                  ${answer.feedback ? `<p class="text-muted">${answer.feedback}</p>` : ''}
-              </div>
-          </div>
-      `).join('');
-
-      summaryContainer.innerHTML = detailedSummary;
-    }
+    this.helper.showDetailedSummary();
   }
 
   private handleStartOver() {
@@ -266,15 +210,13 @@ export class MCQController {
     }
   }
 
-
-
   private hideAllCards() {
     const cards = document.querySelectorAll('.mcq-card');
     cards.forEach(card => (card as HTMLElement).style.display = 'none');
   }
 
   private showCard(index: number) {
-    log.debug('Controller: Showing card at index:', index);
+    log.debug(`Controller: Showing card at index: ${index}`);
     this.hideAllCards();
     const cards = document.querySelectorAll('.mcq-card');
     if (cards[index]) {

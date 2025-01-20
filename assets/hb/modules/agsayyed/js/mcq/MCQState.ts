@@ -31,7 +31,7 @@ export class MCQStateManager {
   }
 
   public updateAnswer(answer: UserAnswer) {
-    log.debug('State: Updating answer for question at index :', this.state.currentQuestion);
+    log.debug(`State: Updating answer for question at index: ${this.state.currentQuestion}`);
     this.state.answers[this.state.currentQuestion] = answer;
     if (answer.isCorrect) {
       this.state.correctAnswers++;
@@ -52,7 +52,7 @@ export class MCQStateManager {
     }
 
     this.state.currentQuestion++;
-    log.debug('State: Moved to question', this.state.currentQuestion);
+    log.debug(`State: Moved to question ${this.state.currentQuestion}`);
 
     // Mark as complete if we've reached the last question
     if (this.state.currentQuestion === this.state.totalQuestions) {
