@@ -3,13 +3,9 @@
 {{- $alwaysOpen := false }}
 {{ partial "agsayyed/mcq" . }}
 
-{{ if ne hugo.Environment "production" }}
-  {{ $mcqts := resources.Get "hb/modules/agsayyed/js/mcq/MCQController.ts" | js.Build (dict "targetPath" "js/mcq.js" "minify" true "target" "es2015") }}
-  <script defer src="{{ $mcqts.RelPermalink }}"></script>
-
-  <script>
-    window.HUGO_ENVIRONMENT = "{{ hugo.Environment }}";
-    console.log("mcq.html:HUGO_ENVIRONMENT", window.HUGO_ENVIRONMENT, "pased from script with -e flag");
-    console.log("mcq.html:MCQ shortcode loaded and executed");
-  </script>
-{{ end }}
+<script>
+window.HUGO_ENVIRONMENT = "{{ hugo.Environment }}";
+console.log("/shortcode/mcq.html:HUGO_ENVIRONMENT", window.HUGO_ENVIRONMENT, "passed from script with -e flag");
+console.log("/shortcode/mcq.html:MCQ shortcode loaded and executed");
+  console.log("------------------------------------------");
+</script>

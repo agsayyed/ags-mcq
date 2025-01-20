@@ -1,5 +1,5 @@
 import { MCQState, UserAnswer } from '../types/mcq.types';
-import log from '../utils/logger';  // Import the logger
+import log from '../utils/mcqlogger';  // Import the logger
 
 export class MCQStateManager {
   private state: MCQState;

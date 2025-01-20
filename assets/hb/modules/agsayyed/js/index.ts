@@ -4,7 +4,7 @@ import './config/mcq.config';
 import './components/FeedbackManager';
 import './mcq/MCQState';
 import './mcq/MCQController';
-import log from './utils/logger';
+import log from './utils/mcqlogger';
 import './mcqMain';
 
 log.debug('/types/mcq.types loaded\n'
@@ -12,6 +12,7 @@ log.debug('/types/mcq.types loaded\n'
   + '/components/FeedbackManager loaded\n'
   + '/mcq/MCQState loaded\n'
   + '/mcq/MCQController loaded\n'
-  + '/initialise.ts loaded\n');
+  + '/mcqlogger.ts loaded\n'
+  + '/mcqMain.ts loadedd\n');
 
 log.separator('index.ts: Finish Module importing');

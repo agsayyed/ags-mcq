@@ -3,7 +3,7 @@ import { MCQStateManager } from './MCQState';
 import { FeedbackManager } from '../components/FeedbackManager';
 import { UIManager } from '../managers/UIManager';
 import { MCQState } from '../types/mcq.types';  // Add this import
-import log from '../utils/logger';  // Import the logger
+import log from '../utils/mcqlogger';  // Import the logger
 
 export class MCQController {
   private stateManager: MCQStateManager;
