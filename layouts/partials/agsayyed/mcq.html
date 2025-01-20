@@ -34,13 +34,13 @@
 
 {{- /* Logging */ -}}
 <script>
-  console.log("Logging from mcq.html partial");
-  console.log("Data parameter:", "{{ $data }}");
-  console.log("Folder:", "{{ $folder }}");
-  console.log("File:", "{{ $file }}");
-  console.log("MCQ Data found:", "{{ if $mcqData }}true{{ else }}false{{ end }}");
-  console.log("Logging end from mcq.html partial");
-  console.log("------------------------------------------");
+  console.debug("Logging from mcq.html partial");
+  console.debug("Data parameter:", "{{ $data }}");
+  console.debug("Folder:", "{{ $folder }}");
+  console.debug("File:", "{{ $file }}");
+  console.debug("MCQ Data found:", "{{ if $mcqData }}true{{ else }}false{{ end }}");
+  console.debug("Logging end from mcq.html partial");
+  console.debug("------------------------------------------");
 </script> {{- /* Accordion structure */ -}}
 
 

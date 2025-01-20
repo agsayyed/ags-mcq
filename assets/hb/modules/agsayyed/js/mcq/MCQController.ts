@@ -13,7 +13,7 @@ export class MCQController {
   private helper: MCQHelper;  // Add helper instance
 
   constructor(totalQuestions: number) {
-    log.separator('MCQController: Initializing');  // Use separator method
+    log.debug('MCQController: Initializing');  // Use separator method
     this.stateManager = new MCQStateManager(totalQuestions);
     this.feedbackManager = new FeedbackManager();
     this.uiManager = new UIManager();
