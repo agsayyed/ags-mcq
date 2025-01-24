@@ -1,0 +1,27 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "go",
+      "bump-minor-pre-major": false,
+      "bump-patch-for-minor-pre-major": true,
+      "changelog-path": "./CHANGELOG.md",
+      "monorepo": "false",
+      "release-as": "undefined",
+      "skip-github-release": "false",
+      ""
+    }
+  },
+  "changelog-sections": {
+    "feat": "Features",
+    "fix": "Bug Fixes",
+    "docs": "Documentation",
+    "style": "Styles",
+    "refactor": "Code Refactoring",
+    "perf": "Performance Improvements",
+    "test": "Tests",
+    "build": "Build System",
+    "ci": "Continuous Integration",
+    "chore": "Chores",
+    "revert": "Reverts"
+  }
+}
