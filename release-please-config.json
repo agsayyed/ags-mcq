@@ -1,4 +1,5 @@
 {
+  "repo-url": "https://github.com/agsayyed/ags-modules-mcq",
   "packages": {
     ".": {
       "release-type": "go",
