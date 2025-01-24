@@ -21,7 +21,7 @@ export class Logger implements ILogger {
     }
   }
 
-  error(message: string, error?: any) {
+  error(message: string, error?: unknown) {
     if (this.environment !== 'production') {
       console.error(message, error);
     }
@@ -36,10 +36,11 @@ export class Logger implements ILogger {
   }
 }
 
-console.debug(`mcqlogger.ts: creating new Logger instance with ${window.HUGO_ENVIRONMENT}`);
-const environment = window.HUGO_ENVIRONMENT || 'unknown';
+const environment: string = window.HUGO_ENVIRONMENT || 'unknown';
 if (environment === 'unknown') {
   console.info('Environment is unknown, defaulting to production');
+} else {
+  console.debug(`mcqlogger.ts: creating new Logger instance with ${window.HUGO_ENVIRONMENT}`);
 }
-const log = new Logger(environment === 'unknown' ? 'production' : environment);
+const log = new Logger(environment);
 export default log;
