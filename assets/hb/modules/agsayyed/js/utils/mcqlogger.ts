@@ -37,5 +37,9 @@ export class Logger implements ILogger {
 }
 
 console.debug(`mcqlogger.ts: creating new Logger instance with ${window.HUGO_ENVIRONMENT}`);
-const log = new Logger(window.HUGO_ENVIRONMENT || 'unknown');
+const environment = window.HUGO_ENVIRONMENT || 'unknown';
+if (environment === 'unknown') {
+  console.info('Environment is unknown, defaulting to production');
+}
+const log = new Logger(environment === 'unknown' ? 'production' : environment);
 export default log;
