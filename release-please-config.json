@@ -7,8 +7,7 @@
       "changelog-path": "./CHANGELOG.md",
       "monorepo": "false",
       "release-as": "undefined",
-      "skip-github-release": "false",
-      ""
+      "skip-github-release": "false"
     }
   },
   "changelog-sections": {
