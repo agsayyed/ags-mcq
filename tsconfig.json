@@ -11,5 +11,5 @@
   },
   "include": [
     "assets/hb/modules/agsayyed/js/**/*" // Adjust this to match your source directory
-  ]
+, "helper/logger.ts"  ]
 }
