@@ -1,48 +1,6 @@
-{{- /* Initialize variables */ -}}
-{{- $data := "" }}
-{{- $flush := false }}
-{{- $alwaysOpen := false }}
-
-{{- /* Check if named parameters are used */ -}}
-{{- if .IsNamedParams }}
-  {{- /* Get the 'data' parameter */ -}}
-  {{- $data = .Get "data" }}
-  {{- /* Check and get the 'flush' parameter if it exists */ -}}
-  {{- if isset .Params "flush" }}{{ $flush = .Get "flush" }}{{ end }}
-  {{- /* Check and get the 'alwaysOpen' parameter if it exists */ -}}
-  {{- if isset .Params "alwaysOpen" }}
-    {{ $alwaysOpen = .Get "alwaysOpen" }}
-  {{ end }}
-{{- else }}
-  {{- /* Get the first positional parameter as 'data' */ -}}
-  {{- $data = .Get 0 }}
-{{- end }}
-
-{{- /* Split the 'data' parameter into parts */ -}}
-{{- $parts := split $data "." }}
-{{- /* Validate the 'data' parameter format */ -}}
-{{- if lt (len $parts) 2 }}
-  {{- errorf "Invalid data key: %s (expected something like 'qa.mcq')" $data }}
-{{- end }}
-
-{{- /* Extract folder and file names from the 'data' parameter */ -}}
-{{- $folder := index $parts 0 }}
-{{- $file := index $parts 1 }}
-
-{{- /* Retrieve the MCQ data from the site data */ -}}
-{{- $mcqData := index (index site.Data $folder) $file }}
-
-{{- /* Logging */ -}}
-<script>
-  console.debug("Logging from mcq.html partial");
-  console.debug("Data parameter:", "{{ $data }}");
-  console.debug("Folder:", "{{ $folder }}");
-  console.debug("File:", "{{ $file }}");
-  console.debug("MCQ Data found:", "{{ if $mcqData }}true{{ else }}false{{ end }}");
-  console.debug("Logging end from mcq.html partial");
-  console.debug("------------------------------------------");
-</script> {{- /* Accordion structure */ -}}
-
+{{- $mcqData := .mcqData }}
+{{- $flush := .flush }}
+{{- $alwaysOpen := .alwaysOpen }}
 
 <div class="accordion" id="mcqAccordion">
   <div class="accordion-item">
@@ -78,7 +36,7 @@
           {{- range $index, $item := $mcqData }}
             <div
               class="card mcq-card"
-              style="display: none; "
+              style="display: none;"
               data-answer="{{ $item.answer }}">
               <div class="card-body">
                 <h5 class="card-title">
