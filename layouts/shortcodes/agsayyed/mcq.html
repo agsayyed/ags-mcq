@@ -1,7 +1,42 @@
 {{- $data := "" }}
 {{- $flush := false }}
 {{- $alwaysOpen := false }}
-{{ partial "agsayyed/mcq" . }}
+
+{{- if .IsNamedParams }}
+  {{- $data = .Get "data" }}
+  {{- if isset .Params "flush" }}{{ $flush = .Get "flush" }}{{ end }}
+  {{- if isset .Params "alwaysOpen" }}
+    {{ $alwaysOpen = .Get "alwaysOpen" }}
+  {{ end }}
+{{- else }}
+  {{- $data = .Get 0 }}
+{{- end }}
+
+{{- $parts := split $data "." }}
+{{- if lt (len $parts) 2 }}
+  {{- errorf "Invalid data key: %s (expected something like 'qa.mcq')" $data }}
+{{- end }}
+
+{{- /* Dynamically access nested paths in site.Data */ -}}
+{{- $mcqData := site.Data }}
+{{- range $parts }}
+  {{- $mcqData = index $mcqData . }}
+  {{- if not $mcqData }}
+    {{- errorf "MCQ data file not found for key: %s" $data }}
+  {{- end }}
+{{- end }}
+
+<script>
+  console.debug("Logging from mcq.html shortcode");
+  console.debug("Data parameter:", "{{ $data }}");
+
+  
+  console.debug("MCQ Data found:", "{{ if $mcqData }}true{{ else }}false{{ end }}");
+</script>
+
+{{ partial "agsayyed/mcq" (dict "mcqData" $mcqData "flush" $flush "alwaysOpen" $alwaysOpen) }}
+
+
 
 <script>
 window.HUGO_ENVIRONMENT = "{{ hugo.Environment }}";
