@@ -1,6 +1,6 @@
 {
   "name": "ags-module-mcq",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "Description": "This package provides multiple-choice question (MCQ) functionalities as a Hugo module. It includes components for creating, displaying, and evaluating MCQs.",
   "repository": {
     "type": "git",

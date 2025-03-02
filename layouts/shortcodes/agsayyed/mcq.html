@@ -1,7 +1,62 @@
 {{- $data := "" }}
 {{- $flush := false }}
 {{- $alwaysOpen := false }}
-{{ partial "agsayyed/mcq" . }}
+
+{{- if .IsNamedParams }}
+  {{- $data = .Get "data" }}
+  {{- if isset .Params "flush" }}{{ $flush = .Get "flush" }}{{ end }}
+  {{- if isset .Params "alwaysOpen" }}
+    {{ $alwaysOpen = .Get "alwaysOpen" }}
+  {{ end }}
+{{- else }}
+  {{- $data = .Get 0 }}
+{{- end }}
+
+{{- $parts := split $data "." }}
+{{- if lt (len $parts) 2 }}
+  {{- errorf "Invalid data key: %s (expected something like 'qa.mcq')" $data }}
+{{- end }}
+
+{{- /* Dynamically access nested paths in site.Data */ -}}
+{{- $mcqData := site.Data }}
+{{- range $parts }}
+  <script>console.debug("Accessing part: {{ . }}")</script>
+  {{- $mcqData = index $mcqData . }}
+  {{- if not $mcqData }}
+    <script>console.error("MCQ data not found for key: {{ $data }}")</script>
+    {{- break }}
+  {{- end }}
+{{- end }}
+
+{{- /* Check if $mcqData is a map (folder) instead of actual content */ -}}
+{{- if and $mcqData (reflect.IsMap $mcqData) }}
+  <script>console.warn("Found a folder, not actual data: {{ $data }}")</script>
+  {{- $mcqData = nil }}
+{{- end }}
+
+<script>
+  console.debug("Logging from mcq.html shortcode");
+  console.debug("Data parameter:", "{{ $data }}");
+  console.debug("MCQ Data found:", "{{ if $mcqData }}true{{ else }}false{{ end }}");
+</script>
+
+{{- if not $mcqData }}
+<div class="accordion-item">
+  <h2 class="accordion-header" id="headingError">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseError" aria-expanded="false" aria-controls="collapseError">
+      Warning
+    </button>
+  </h2>
+  <div id="collapseError" class="accordion-collapse collapse" aria-labelledby="headingError">
+    <div class="accordion-body text-danger">
+      <strong>Data not found:</strong> The requested data '{{ $data }}' could not be located or is a folder.
+    </div>
+  </div>
+</div>
+{{- else }}
+  {{ partial "agsayyed/mcq" (dict "mcqData" $mcqData "flush" $flush "alwaysOpen" $alwaysOpen) }}
+{{- end }}
+
 
 <script>
 window.HUGO_ENVIRONMENT = "{{ hugo.Environment }}";
