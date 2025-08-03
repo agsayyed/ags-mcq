@@ -47,7 +47,7 @@ The module will render the MCQ as shown below:
 
 ### Package information
 
-Package.json provide basic information. The module is itslef built with the name `mcq` while the package folder name is `ags-modules-mcq`. It is publihsed on GitHub under the organisation name `agsayyed`.
+Package.json provides basic information. The module is itself built with the name `mcq` while the package folder name is `ags-mcq`. It is published on GitHub under the organisation name `agsayyed`.
 
 To install the module, add the path in hugo.yaml or module.yaml file as shown below:
 
