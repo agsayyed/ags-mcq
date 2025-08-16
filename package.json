@@ -4,12 +4,12 @@
   "description": "This package provides multiple-choice question (MCQ) functionalities as a Hugo module. It includes components for creating, displaying, and evaluating MCQs.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agsayyed/mcq.git"
+    "url": "git+https://github.com/agsayyed/ags-mcq.git"
   },
   "author": "Abdul Sayyed <s.ghafoor@outlook.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/agsayyed/mcq/issues"
+    "url": "https://github.com/agsayyed/ags-mcq/issues"
   },
   "scripts": {
     "build": "echo 'MCQ module - no build step required'",
