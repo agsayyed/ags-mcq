@@ -1,0 +1,41 @@
+
+baseURL = "https://github.com/agsayyed/mcq/"
+title = "Reusable MCQ Module"
+languageCode = "en"
+
+[module]
+hugoVersion = { extended = true, min = "0.110.0" }
+
+[[module.imports]]
+path = "github.com/hugomods/bootstrap"
+
+[[module.imports]]
+path = "github.com/hugomods/icons"
+
+[[module.imports]]
+path = "github.com/twbs/icons"
+
+[[module.mounts]]
+source = "data"
+target = "data"
+
+[[module.mounts]]
+source = "layouts"
+target = "layouts"
+
+[[module.mounts]]
+source = "assets/hb/modules/agsayyed"
+target = "assets/hb/modules/agsayyed"
+
+[[module.mounts]]
+source = "static/sounds"
+target = "static/sounds"
+
+[params.hb]
+bootstrap.enable_library = true
+
+[params.mcq]
+enable = true
+soundPath = "sounds/"
+
+

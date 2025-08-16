@@ -1,0 +1,26 @@
+// This SCSS styles will be compiled into the CSS bundle automatically.
+
+.feedback-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  display: none;
+  animation: fadeIn 0.3s ease;
+
+  .feedback-content {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    &.correct {
+      border-left: 4px solid var(--correct-color);
+    }
+
+    &.incorrect {
+      border-left: 4px solid var(--incorrect-color);
+    }
+  }
+}

@@ -1,0 +1,147 @@
+// MCQ Container styles
+#mcq-container {
+  min-height: 300px;
+  position: relative;
+  margin: 1rem 0;
+}
+
+// Progress and score
+.progress {
+  margin-bottom: 1rem;
+}
+
+#score {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+// Card styles
+.card {
+  margin-bottom: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #2c3e50;
+
+  .question-number {
+    color: #6c757d;
+    font-weight: 500;
+    margin-right: 0.5rem;
+  }
+}
+
+// List group item styles
+.list-group-item {
+  background-color: white;
+  cursor: pointer;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #e9ecef;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #e9ecef;
+}
+
+// Active state for selected options
+.list-group-item.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+// Ensure text color remains visible when pressed
+.list-group-item.active:active {
+  background-color: #0056b3; // Darker shade for pressed state
+  color: white; // Ensure text color remains white
+}
+
+// Ensure text color remains visible when hovering over an active item
+.list-group-item.active:hover {
+  background-color: #007bff; // Keep the same background color
+  color: white; // Ensure text color remains white
+}
+
+// Button styling
+#next-button,
+#start-over-button {
+  min-width: 100px;
+  margin: 1rem 0;
+  position: relative; // Ensure buttons are positioned relative to their container
+  z-index: 1; // Ensure buttons are above other elements
+}
+
+.feedback-box {
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  display: none;
+  &.show {
+    display: block;
+  }
+}
+
+.feedback-text {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+// Summary styles
+.summary-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+
+  .answer-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.mcq-card {
+  display: none; // Default state
+  margin-bottom: 1rem;
+  position: relative; // Change from absolute to relative
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+#progress-bar {
+  transition: width 0.3s ease;
+}
+
+.list-group-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--list-group-hover-bg);
+  }
+
+  &.selected {
+    background-color: var(--list-group-active-bg);
+    color: white;
+  }
+}
+
+#start-over-button {
+  display: none;
+  &.show {
+    display: block;
+  }
+}

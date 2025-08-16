@@ -1,0 +1,35 @@
+{
+  "name": "ags-mcq",
+  "version": "0.2.2",
+  "description": "This package provides multiple-choice question (MCQ) functionalities as a Hugo module. It includes components for creating, displaying, and evaluating MCQs.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agsayyed/mcq.git"
+  },
+  "author": "Abdul Sayyed <s.ghafoor@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/agsayyed/mcq/issues"
+  },
+  "scripts": {
+    "build": "echo 'MCQ module - no build step required'",
+    "clean": "echo nothing to clean"
+  },
+  "keywords": [
+    "hugo",
+    "module",
+    "mcq",
+    "multiple-choice",
+    "question",
+    "quiz"
+  ],
+  "homepage": "",
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^7.0.0",
+    "@types/node": "^22.10.6",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.0",
+    "postcss-cli": "^11.0.0",
+    "prettier-plugin-go-template": "^0.0.15"
+  }
+}
