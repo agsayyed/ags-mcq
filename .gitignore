@@ -8,3 +8,5 @@ package-lock.json
 buildREADME.md
 moduleReadMe.md
 helper/
+_vendor/
+/_vendor/*
