@@ -54,7 +54,7 @@ To install the module, add the path in hugo.yaml or module.yaml file as shown be
 ```yaml
 module:
   imports:
-    - path: github.com/agsayyed/mcq
+    - path: github.com/agsayyed/ags-mcq
 ```
 
 And then use `hugo mod get -u` to get the module. If you use the module in your site and it is run with `-e development` flag, then the browser inspector window will show some info and logs, it is intentional and can be ignored. In production mode, it will not show any logs.
@@ -62,3 +62,31 @@ And then use `hugo mod get -u` to get the module. If you use the module in your 
 ### Git
 
 To provide versioning, tags are used with reference to semver. Even `npm version <patch, minor , major>` can also be used to update the version.
+
+### Replacement in Dev Mode
+
+- When building a module, it is must the replacement is done correctly. One way is to use a module replacment in `go.mod` file. The second is to use it in the `config/development/parm.yaml or /hugo.ymal`. 
+
+> Note: Go.mod is a safe and sound 
+
+- No matter where the replacement is done, mounting should occur correctly, if not the behaviour is not achieve.
+- One problem face and time waisted was to test two moudles in one file , where one mount is replaced by the later mount. So test them seprately.
+
+### Requirement
+
+- Moude depends upon four moudles defined in config file, they are shown below and is required for the moudle to work
+
+```toml
+[[module.imports]]
+path = "github.com/hbstack/bootstrap"
+
+[[module.imports]]
+path = "github.com/hugomods/bootstrap"
+
+[[module.imports]]
+path = "github.com/hugomods/icons"
+
+[[module.imports]]
+path = "github.com/twbs/icons"
+
+---
