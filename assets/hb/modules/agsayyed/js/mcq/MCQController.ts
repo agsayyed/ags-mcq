@@ -1,32 +1,32 @@
 import { MCQConfig } from '../config/mcq.config';
-import log from '../utils/mcqlogger';  // Import the logger
+import log from '../utils/mcqlogger'; // Import the logger
 import { FeedbackManager } from '../components/FeedbackManager';
 import { UIManager } from '../managers/UIManager';
-import { MCQState } from '../types/mcq.types';  // Add this import
+import { MCQState } from '../types/mcq.types'; // Add this import
 import { MCQStateManager } from './MCQState';
-import { MCQHelper } from './MCQHelper';  // Import the helper class
-import { SoundManager } from './SoundManager';  // Import the SoundManager
+import { MCQHelper } from './MCQHelper'; // Import the helper class
+import { SoundManager } from './SoundManager'; // Import the SoundManager
 
 export class MCQController {
   private stateManager: MCQStateManager;
   private feedbackManager: FeedbackManager;
   private uiManager: UIManager;
-  private helper: MCQHelper;  // Add helper instance
-  private soundManager: SoundManager;  // Add sound manager instance
+  private helper: MCQHelper; // Add helper instance
+  private soundManager: SoundManager; // Add sound manager instance
 
   constructor(totalQuestions: number) {
-    log.debug('MCQController: Initializing');  // Use separator method
-    this.soundManager = new SoundManager();  // Initialize sound manager
+    log.debug('MCQController: Initializing'); // Use separator method
+    this.soundManager = new SoundManager(); // Initialize sound manager
     this.stateManager = new MCQStateManager(totalQuestions);
     this.feedbackManager = new FeedbackManager();
     this.uiManager = new UIManager();
-    this.helper = new MCQHelper(this.stateManager);  // Initialize helper
+    this.helper = new MCQHelper(this.stateManager); // Initialize helper
     this.setupEventListeners();
     this.initializeUI();
 
     // Subscribe to state changes
     this.stateManager.subscribe((state) => {
-      this.updateUI(state);  // Update UI when state changes
+      this.updateUI(state); // Update UI when state changes
     });
   }
 
@@ -61,7 +61,7 @@ export class MCQController {
     log.debug('Controller: Checking answer');
     // Remove previous selection styling
     const siblings = element.parentElement!.children;
-    Array.from(siblings).forEach(sibling => {
+    Array.from(siblings).forEach((sibling) => {
       sibling.classList.remove('active', 'correct', 'incorrect');
     });
 
@@ -106,7 +106,7 @@ export class MCQController {
   }
 
   private setupEventListeners() {
-    // Remove onclick from HTML and handle here only 
+    // Remove onclick from HTML and handle here only
     const nextButton = document.getElementById('next-button');
     if (nextButton) {
       // Remove any existing listeners first
@@ -125,7 +125,7 @@ export class MCQController {
 
     // Handle option selection
     const options = document.querySelectorAll('.list-group-item');
-    options.forEach(option => {
+    options.forEach((option) => {
       // Remove onclick attribute
       option.removeAttribute('onclick');
       option.addEventListener('click', (e) => {
@@ -191,7 +191,7 @@ export class MCQController {
 
     // Reset all list-group-item elements
     const options = document.querySelectorAll('.list-group-item');
-    options.forEach(option => {
+    options.forEach((option) => {
       option.classList.remove('active', 'correct', 'incorrect');
     });
 
@@ -216,7 +216,7 @@ export class MCQController {
 
   private hideAllCards() {
     const cards = document.querySelectorAll('.mcq-card');
-    cards.forEach(card => (card as HTMLElement).style.display = 'none');
+    cards.forEach((card) => ((card as HTMLElement).style.display = 'none'));
   }
 
   private showCard(index: number) {
@@ -229,5 +229,3 @@ export class MCQController {
     }
   }
 }
-
-

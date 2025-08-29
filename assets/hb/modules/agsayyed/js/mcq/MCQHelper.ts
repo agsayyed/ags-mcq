@@ -1,4 +1,4 @@
-import log from '../utils/mcqlogger';  // Import the logger
+import log from '../utils/mcqlogger'; // Import the logger
 import { MCQStateManager } from './MCQState';
 
 export class MCQHelper {
@@ -48,7 +48,9 @@ export class MCQHelper {
     const summaryContainer = document.getElementById('summary-container');
     if (summaryContainer) {
       const answers = this.stateManager.getState().answers;
-      const detailedSummary = answers.map((answer, index) => `
+      const detailedSummary = answers
+        .map(
+          (answer, index) => `
           <div class="card mb-2">
               <div class="card-body">
                   <h6>Question ${index + 1}</h6>
@@ -60,7 +62,9 @@ export class MCQHelper {
                   ${answer.feedback ? `<p class="text-muted">${answer.feedback}</p>` : ''}
               </div>
           </div>
-      `).join('');
+      `
+        )
+        .join('');
 
       summaryContainer.innerHTML = detailedSummary;
     }
@@ -68,6 +72,6 @@ export class MCQHelper {
 
   private hideAllCards() {
     const cards = document.querySelectorAll('.mcq-card');
-    cards.forEach(card => (card as HTMLElement).style.display = 'none');
+    cards.forEach((card) => ((card as HTMLElement).style.display = 'none'));
   }
 }

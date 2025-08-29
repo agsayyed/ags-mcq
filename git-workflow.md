@@ -7,6 +7,7 @@ This document outlines the standard workflow for making changes, committing, tag
 ### 1.1 Making Changes
 
 1. Ensure you're on the correct branch:
+
    ```bash
    git checkout main   # For main branch changes
    # or
@@ -16,6 +17,7 @@ This document outlines the standard workflow for making changes, committing, tag
 2. Make your code changes.
 
 3. Test your changes locally:
+
    ```bash
    # Test with a Hugo site that imports this module
    cd /path/to/test/site
@@ -25,11 +27,13 @@ This document outlines the standard workflow for making changes, committing, tag
 ### 1.2 Committing Changes
 
 1. Check the status of your changes:
+
    ```bash
    git status
    ```
 
 2. Add your changes to the staging area:
+
    ```bash
    git add .                  # Add all changes
    # or
@@ -37,6 +41,7 @@ This document outlines the standard workflow for making changes, committing, tag
    ```
 
 3. Commit your changes with a meaningful message:
+
    ```bash
    git commit -m "Brief description of changes"
    ```
@@ -46,6 +51,7 @@ This document outlines the standard workflow for making changes, committing, tag
 ### 2.1 Updating Version Numbers
 
 1. Update version in package.json using npm:
+
    ```bash
    # For patch updates (1.0.0 -> 1.0.1)
    npm version patch
@@ -68,11 +74,14 @@ If not using npm version:
 
 1. Update the version in package.json manually.
 2. Commit the change:
+
    ```bash
    git add package.json
    git commit -m "Bump version to x.y.z"
    ```
+
 3. Create a tag:
+
    ```bash
    git tag -a v1.2.3 -m "Version 1.2.3"
    ```
@@ -82,11 +91,13 @@ If not using npm version:
 ### 3.1 Pushing to GitHub
 
 1. Push commits:
+
    ```bash
    git push origin main  # Or the branch you're working on
    ```
 
 2. Push tags:
+
    ```bash
    git push --tags
    ```
@@ -105,20 +116,23 @@ If not using npm version:
 ### 4.1 Updating Dependencies
 
 1. Update go.mod with new dependencies:
+
    ```bash
    # Add or update a dependency
    hugo mod get github.com/example/module@v1.2.3
-   
+
    # Get the latest versions of all dependencies
    hugo mod get -u
    ```
 
 2. Tidy the go.mod file:
+
    ```bash
    hugo mod tidy
    ```
 
 3. Commit the updated go.mod and go.sum:
+
    ```bash
    git add go.mod go.sum
    git commit -m "Update dependencies"

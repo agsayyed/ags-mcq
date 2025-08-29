@@ -1,4 +1,4 @@
-import log from '../utils/mcqlogger';  // Import the logger
+import log from '../utils/mcqlogger'; // Import the logger
 
 export class SoundManager {
   private clickSound: HTMLAudioElement;

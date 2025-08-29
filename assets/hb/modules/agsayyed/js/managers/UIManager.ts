@@ -9,12 +9,12 @@ export class UIManager {
 
   private hideAllCards() {
     const cards = document.querySelectorAll('.mcq-card');
-    cards.forEach(card => (card as HTMLElement).style.display = 'none');
+    cards.forEach((card) => ((card as HTMLElement).style.display = 'none'));
   }
 
   private initializeEventHandlers() {
     // Remove inline onclick handlers from HTML
-    document.querySelectorAll('.list-group-item').forEach(item => {
+    document.querySelectorAll('.list-group-item').forEach((item) => {
       item.removeAttribute('onclick');
     });
   }
@@ -44,7 +44,7 @@ export class UIManager {
 
   public handleOptionSelection(element: HTMLElement, isCorrect: boolean) {
     const siblings = element.parentElement!.children;
-    Array.from(siblings).forEach(sibling => {
+    Array.from(siblings).forEach((sibling) => {
       sibling.classList.remove('active', 'correct', 'incorrect');
     });
     element.classList.add('active', isCorrect ? 'correct' : 'incorrect');

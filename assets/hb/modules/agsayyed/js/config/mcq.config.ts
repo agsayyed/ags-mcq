@@ -1,4 +1,3 @@
-
 export const MCQConfig = {
   showInstantFeedback: false,
   shuffleQuestions: false,

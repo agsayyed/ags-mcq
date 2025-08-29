@@ -8,12 +8,9 @@ export class Question implements MCQQuestion {
     public weight: number = 1,
     public show: boolean = true,
     public feedback?: string
-  ) { }
+  ) {}
 
   isCorrectAnswer(selectedOption: string): boolean {
     return selectedOption.trim() === this.answer.trim();
   }
 }
-
-
-

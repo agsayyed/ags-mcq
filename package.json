@@ -1,6 +1,7 @@
 {
   "name": "ags-mcq",
   "version": "0.3.1",
+  "private": true,
   "description": "This package provides multiple-choice question (MCQ) functionalities as a Hugo module. It includes components for creating, displaying, and evaluating MCQs.",
   "repository": {
     "type": "git",
@@ -12,24 +13,15 @@
     "url": "https://github.com/agsayyed/ags-mcq/issues"
   },
   "scripts": {
-    "build": "echo 'MCQ module - no build step required'",
-    "clean": "echo nothing to clean"
+    "build": "echo 'No build step required'",
+    "clean": "echo 'No clean step required'",
+    "lint": "pnpm run lint:js && pnpm run lint:scss && pnpm run lint:md",
+    "lint:js": "eslint --ext .js,.ts,.jsx,.tsx . && echo '✅ ESLint completed successfully'",
+    "lint:scss": "stylelint '**/*.{css,scss}' && echo '✅ Stylelint completed successfully'",
+    "lint:md": "markdownlint-cli2 '**/*.md' && echo '✅ Markdownlint completed successfully'",
+    "format": "prettier --write '**/*.{js,ts,json,md,yml,yaml}' --ignore-path .prettierignore",
+    "format:md": "prettier --write '**/*.md' --ignore-path .prettierignore"
   },
-  "keywords": [
-    "hugo",
-    "module",
-    "mcq",
-    "multiple-choice",
-    "question",
-    "quiz"
-  ],
-  "homepage": "",
-  "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^7.0.0",
-    "@types/node": "^22.10.6",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.0",
-    "postcss-cli": "^11.0.0",
-    "prettier-plugin-go-template": "^0.0.15"
-  }
+  "keywords": ["hugo", "module", "mcq", "multiple-choice", "question", "quiz"],
+  "homepage": ""
 }

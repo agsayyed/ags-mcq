@@ -1,5 +1,5 @@
 import { MCQState, UserAnswer } from '../types/mcq.types';
-import log from '../utils/mcqlogger';  // Import the logger
+import log from '../utils/mcqlogger'; // Import the logger
 
 export class MCQStateManager {
   private state: MCQState;
@@ -21,13 +21,13 @@ export class MCQStateManager {
     this.listeners.push(listener);
     // Returns function to unsubscribe if needed
     return () => {
-      this.listeners = this.listeners.filter(l => l !== listener);
+      this.listeners = this.listeners.filter((l) => l !== listener);
     };
   }
 
   // Notifies all listeners when state changes
   private notify() {
-    this.listeners.forEach(listener => listener(this.state));
+    this.listeners.forEach((listener) => listener(this.state));
   }
 
   public updateAnswer(answer: UserAnswer) {
@@ -68,12 +68,12 @@ export class MCQStateManager {
   }
 
   public getState(): MCQState {
-    return this.state;  // Fix: remove duplicate return statement
+    return this.state; // Fix: remove duplicate return statement
   }
 
   public reset(): void {
     this.state = {
-      currentQuestion: 0,  // Start from 0 for "Attempted Questions" label
+      currentQuestion: 0, // Start from 0 for "Attempted Questions" label
       totalQuestions: this.state.totalQuestions,
       correctAnswers: 0,
       answers: [],

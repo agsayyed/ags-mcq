@@ -4,7 +4,7 @@ export interface MCQQuestion {
   answer: string;
   weight?: number;
   show?: boolean;
-  feedback?: string;  // Optional feedback for each question
+  feedback?: string; // Optional feedback for each question
 }
 
 export interface UserAnswer {
@@ -26,7 +26,7 @@ export interface MCQState {
 export interface Logger {
   debug: (message: string) => void;
   warn: (message: string) => void;
-  error: (message: string, error?: any) => void;  // Add error method
+  error: (message: string, error?: any) => void; // Add error method
   separator: (message: string) => void;
   setLevel: (level: 'debug' | 'warn') => void;
 }

@@ -6,9 +6,11 @@
 
 When a user adds this to their markdown:
 
-```markdown
-{{< agsayyed/mcq "qa.mcq" >}}
-```
+<!--prettier-ignore-start-->
+````markdown
+  {{< agsayyed/mcq "qa.mcq" >}}
+````
+<!--prettier-ignore-end-->
 
 The flow begins:
 
@@ -33,46 +35,45 @@ The `mcq.html` partial:
 - A Quiz contains questions and questions has options and answers.
 - To display the questions and answers in a collapsible format, an accordion container is used.
 - It is built using Bootstrap classes (accordion, accordion-item, accordion-header etc.).
-- Collapsible sections toggle visibility of MCQs and  other content. When ti comes to implementing we say that the container would have a `progress bar`, `MCQ cards`, `navigation buttons`, `score and summary`.
+- Collapsible sections toggle visibility of MCQs and other content. When ti comes to implementing we say that the container would have a
+  `progress bar`, `MCQ cards`, `navigation buttons`, `score and summary`.
 
-- Progress Bar:
-  Displays the user's progress in answering questions.
-  Dynamically updates as questions are attempted.
+- Progress Bar: Displays the user's progress in answering questions. Dynamically updates as questions are attempted.
 
-- MCQ Cards:Each question is displayed within a hidden card (style="display: none;"). Question text and options are rendered dynamically using Go templates ({{ $item.question }}, {{ $item.options }}). Includes feedback for correct/incorrect answers via a "feedback-box."
-- Navigation Buttons:
-   Next: Progresses to the next question.
-   Start Over: Restarts the quiz (initially hidden).
+- MCQ Cards:Each question is displayed within a hidden card (style="display: none;"). Question text and options are rendered dynamically
+  using Go templates `({{ $item.question }}, {{ $item.options }})`. Includes feedback for correct/incorrect answers via a "feedback-box."
+- Navigation Buttons: Next: Progresses to the next question. Start Over: Restarts the quiz (initially hidden).
 
-- Score and Summary:
-  Displays the number of attempted questions out of the total.
-  A summary container for additional details or results.
-  Go Template Integration:
+- Score and Summary: Displays the number of attempted questions out of the total. A summary container for additional details or results. Go
+  Template Integration:
 
-The questions and answers are dynamically populated from the `mcqData` Go variable using loops and conditional logic. Supports multiple options per question using slices or single values.
+The questions and answers are dynamically populated from the `mcqData` Go variable using loops and conditional logic. Supports multiple
+options per question using slices or single values.
 
-- Dynamic Behaviors
-  User Interaction: Users answer questions by selecting an option from the list.
-  Feedback is displayed, explaining the correct answer.
+- Dynamic Behaviors User Interaction: Users answer questions by selecting an option from the list. Feedback is displayed, explaining the
+  correct answer.
 
-- Progress Tracking:
-  Progress bar updates based on aria-valuenow and style="width: X%;".
+- Progress Tracking: Progress bar updates based on aria-valuenow and style="width: X%;".
 
-- Dynamic Rendering:
-  MCQ cards are initially hidden and displayed sequentially as users navigate.
-  Template Flexibility:
-  Go template expressions allow for seamless integration with backend data.
+- Dynamic Rendering: MCQ cards are initially hidden and displayed sequentially as users navigate. Template Flexibility: Go template
+  expressions allow for seamless integration with backend data.
 
 #### How it was implemented
 
 - Outer Div
 
-<div id="mcq-container">
+```html
+<div id="mcq-container"></div>
+```
 
 - Purpose: Acts as a container for all MCQ cards.
-- Dynamic Data: The container's content is populated dynamically using Hugo's templating syntax `({{ ... }})` and iterates over the `mcqData` array.
-  
-- Loop Through MCQs `{{- range $index, $item := $mcqData }}`
+- Dynamic Data: The container's content is populated dynamically using Hugo's templating syntax `({{ ... }})` and iterates over the
+  `mcqData` array.
+- Loop Through MCQs
+
+  ```go
+  {{- range $index, $item := $mcqData }}
+  ```
 
 Purpose: Iterates through each item in `mcqData`. Each `$item` represents one MCQ.
 
@@ -130,7 +131,7 @@ js/
 - `index.ts` file in `hb/modules/vendor` laods scripts and styles for the MCQ module.
 
 ```typescript
-log.separator('index.ts: starting importing modules one by one')
+log.separator('index.ts: starting importing modules one by one');
 import './types/mcq.types';
 import './config/mcq.config';
 import './components/FeedbackManager';
@@ -138,18 +139,23 @@ import './mcq/MCQState';
 import './mcq/MCQController';
 import log from './utils/logger';
 import './mcqMain.ts';
-
-log.debug('/types/mcq.types loaded\n'
-  + '/config/mcq.config loaded\n'
-  + '/components/FeedbackManager loaded\n'
-  + '/mcq/MCQState loaded\n'
-  + '/mcq/MCQController loaded\n'
-  + '/mcqMain.ts loaded\n');
-
+//
+log.debug(
+  '/types/mcq.types loaded\n' +
+    '/config/mcq.config loaded\n' +
+    '/components/FeedbackManager loaded\n' +
+    '/mcq/MCQState loaded\n' +
+    '/mcq/MCQController loaded\n' +
+    '/mcqMain.ts loaded\n'
+);
+//
 log.separator('index.ts: Finish Module importing');
 ```
 
-> Note: `logger` is used to get the debugging information in the console. It is installed as dev dependency and , it is also extended to create a new `separator` function, it is shown here. The last file loaded is `./mcqmMain.ts`. This is the file where initialsaion of the MCQ module is done. Conventionaly its name is kept `main.ts` but Hugo HbStie does not accept as it conflicts with probably existing `main.ts`.
+> Note: `logger` is used to get the debugging information in the console. It is installed as dev dependency and , it is also extended to
+> create a new `separator` function, it is shown here. The last file loaded is `./mcqmMain.ts`. This is the file where initialsaion of the
+> MCQ module is done. Conventionaly its name is kept `main.ts` but Hugo HbStie does not accept as it conflicts with probably existing
+> `main.ts`.
 
 ```typescript
 import log from 'loglevel';
@@ -181,14 +187,14 @@ export default extendedLog;
 
 ```typescript
 import { MCQController } from './mcq/MCQController';
-import log from './utils/logger';  // Import the logger
+import log from './utils/logger'; // Import the logger
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.mcq-card')) {
-    log.separator('mcqMain.ts: Initializing MCQ Controller');  // Use separator method
+    log.separator('mcqMain.ts: Initializing MCQ Controller'); // Use separator method
     const totalQuestions = document.querySelectorAll('.mcq-card').length;
-    new MCQController(totalQuestions);  // Initialize MCQController without using an identifier
+    new MCQController(totalQuestions); // Initialize MCQController without using an identifier
   }
 });
 ```
@@ -223,11 +229,11 @@ private notify() {
 
 ```typescript
 class MCQController {
-    constructor() {
-        this.stateManager = new MCQStateManager(totalQuestions);
-        this.feedbackManager = new FeedbackManager();
-        this.uiManager = new UIManager();
-    }
+  constructor() {
+    this.stateManager = new MCQStateManager(totalQuestions);
+    this.feedbackManager = new FeedbackManager();
+    this.uiManager = new UIManager();
+  }
 }
 ```
 
@@ -263,13 +269,13 @@ class MCQController {
 
 1. Answer Selection:
 
-   ```
+   ```text
    User clicks → handleAnswer → updateState → notify → updateUI
    ```
 
 2. Navigation:
 
-   ```
+   ```text
    Next button → handleNext → moveToNext → notify → updateUI
    ```
 
@@ -296,9 +302,9 @@ MCQConfig allows customization:
 
 ```typescript
 {
-    showInstantFeedback: boolean;
-    shuffleQuestions: boolean;
-    showProgressBar: boolean;
+  showInstantFeedback: boolean;
+  shuffleQuestions: boolean;
+  showProgressBar: boolean;
 }
 ```
 
@@ -332,7 +338,7 @@ MCQConfig allows customization:
    - Lazy loading
    - State caching
 
-## 3. File Structure & Responsibilities
+## 10. File Structure & Responsibilities
 
 ### Types (`types/mcq.types.ts`)
 
@@ -341,7 +347,7 @@ MCQConfig allows customization:
 ### Sequence Diagram
 
 ```mermaid
-sequenceDiagram
+  sequenceDiagram
     participant User
     participant MCQController
     participant MCQStateManager
