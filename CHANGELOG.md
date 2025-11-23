@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.3.2] - 2025-11-23
+
+### Fixed
+
+- Asset mounting conflict with other AGS modules
+- Assets now correctly mounted to `hb/modules/ags-mcq/` instead of `hb/modules/agsayyed/`
+- Prevents asset overwrites when used with ags-markmap or other AGS modules
+
+### Changed
+
+- Module mount target in config.toml: `assets/hb/modules/agsayyed` → `assets/hb/modules/ags-mcq`
+- Asset structure now follows HBStack module naming conventions
+
+### Added
+
+- Documentation of asset mounting standards in MODULE_ASSET_STANDARDS.md
+
 ## [0.3.0] - 2025-08-16
 
 ### Changed

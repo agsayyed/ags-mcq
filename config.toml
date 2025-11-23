@@ -28,7 +28,7 @@ target = "layouts"
 
 [[module.mounts]]
 source = "assets/hb/modules/agsayyed"
-target = "assets/hb/modules/agsayyed"
+target = "assets/hb/modules/ags-mcq"
 
 [[module.mounts]]
 source = "static/sounds"
