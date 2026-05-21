@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-05-21
+
 ### Fixed
 
 - Respect site-level HB primary color overrides by changing module SCSS variables to `!default`.
