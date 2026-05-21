@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Respect site-level HB primary color overrides by changing module SCSS variables to `!default`.
+- Updated primary-dependent variables to reference `$primary` so downstream theme configuration is applied consistently.
+
+### Verified
+
+- Built against host test site and confirmed compiled CSS `--hb-primary` follows host-configured `hb.styles.primary`.
+
 ## [0.3.2] - 2025-11-23
 
 ### Fixed

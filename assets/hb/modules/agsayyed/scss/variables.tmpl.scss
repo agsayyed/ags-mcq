@@ -2,29 +2,29 @@
 // See https://github.com/twbs/bootstrap/blob/main/scss/_variables.scss.
 
 // Primary color (affects buttons, progress bar, active states)
-$primary: #4299e1; // Modern blue
+$primary: #4299e1 !default; // Modern blue
 
 // Progress bar specific
-$progress-bar-bg: #63b3ed; // Lighter blue for progress
-$progress-height: 0.6rem;
+$progress-bar-bg: #63b3ed !default; // Lighter blue for progress
+$progress-height: 0.6rem !default;
 
 // Button colors
-$btn-padding-x: 1.5rem;
-$btn-border-radius: 0.5rem;
+$btn-padding-x: 1.5rem !default;
+$btn-border-radius: 0.5rem !default;
 
 // Primary button (Next button)
-$btn-primary-color: #fff;
-$btn-primary-bg: #4299e1;
-$btn-primary-border: #4299e1;
-$btn-primary-hover-bg: #3182ce;
+$btn-primary-color: #fff !default;
+$btn-primary-bg: $primary !default;
+$btn-primary-border: $primary !default;
+$btn-primary-hover-bg: #3182ce !default;
 
 // Secondary button (Start Over button)
-$btn-secondary-color: #fff;
-$btn-secondary-bg: #718096;
-$btn-secondary-border: #718096;
-$btn-secondary-hover-bg: #4a5568;
+$btn-secondary-color: #fff !default;
+$btn-secondary-bg: #718096 !default;
+$btn-secondary-border: #718096 !default;
+$btn-secondary-hover-bg: #4a5568 !default;
 
 // List group active state
-$list-group-active-bg: #4299e1;
-$list-group-active-border-color: #4299e1;
-$list-group-hover-bg: #ebf8ff; // Very light blue for hover
+$list-group-active-bg: $primary !default;
+$list-group-active-border-color: $primary !default;
+$list-group-hover-bg: #ebf8ff !default; // Very light blue for hover
