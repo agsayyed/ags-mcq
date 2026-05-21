@@ -28,7 +28,9 @@ export class Logger implements ILogger {
   }
 
   separator(message: string) {
-    console.log('--- ' + message + ' ---');
+    if (this.environment === 'development') {
+      console.log('--- ' + message + ' ---');
+    }
   }
 
   setLevel(level: 'debug' | 'warn') {
@@ -36,11 +38,14 @@ export class Logger implements ILogger {
   }
 }
 
-const environment: string = window.HUGO_ENVIRONMENT || 'unknown';
-if (environment === 'unknown') {
-  console.info('Environment is unknown, defaulting to production');
-} else {
-  console.debug(`mcqlogger.ts: creating new Logger instance with ${window.HUGO_ENVIRONMENT}`);
+// Get environment from Hugo or default to production. If the embedder
+// forgets to set window.HUGO_ENVIRONMENT we stay silent in prod and only
+// log a hint when actively developing.
+const environment: string = window.HUGO_ENVIRONMENT || 'production';
+if (environment === 'development') {
+  console.debug(
+    `mcqlogger.ts: creating new Logger instance with environment "${environment}"`,
+  );
 }
 const log = new Logger(environment);
 export default log;

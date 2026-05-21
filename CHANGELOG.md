@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-05-21
+
+### Fixed
+
+- Silence `Logger.separator()` output in production by gating it on `environment === 'development'`.
+- Default unknown `window.HUGO_ENVIRONMENT` to `'production'` (was `'unknown'`) and remove the
+  `console.info('Environment is unknown, defaulting to production')` line so embedders that forget to inject the global stay silent in
+  prod. A `console.debug` hint is still emitted when the environment is explicitly `'development'`.
+
+### Notes
+
+- Matches the logger convention already used by `ags-markmap` v0.4.x.
+
 ## [0.3.3] - 2026-05-21
 
 ### Fixed
