@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2020",
     "module": "commonjs",
+    "lib": ["ES2020", "DOM"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true, // Ensure source maps are generated
-    "outDir": "./public/js" // Output directory for compiled JavaScript files
+    "sourceMap": true,
+    "noEmit": true
   },
   "include": [
-    "assets/hb/modules/agsayyed/js/**/*", // Adjust this to match your source directory
+    "assets/hb/modules/ags-mcq/js/**/*",
     "helper/logger.ts"
   ]
 }

@@ -27,7 +27,7 @@ source = "layouts"
 target = "layouts"
 
 [[module.mounts]]
-source = "assets/hb/modules/agsayyed"
+source = "assets/hb/modules/ags-mcq"
 target = "assets/hb/modules/ags-mcq"
 
 [[module.mounts]]

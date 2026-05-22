@@ -5,6 +5,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-05-22
+
+### BREAKING CHANGES
+
+- **Asset namespace renamed** from `agsayyed` to `ags-mcq` to follow the `ags-markmap` convention. The Hugo module mount target was
+  already `assets/hb/modules/ags-mcq` since v0.2.x, so consumers using `resources.Get "hb/modules/ags-mcq/..."` are unaffected. Only
+  consumers that bypassed the mount and reached into the module's source directory directly need to update.
+- **Shortcode renamed** from `{{< agsayyed/mcq ... >}}` to `{{< ags-mcq ... >}}` (flat namespace, matches `{{< ags-markmap >}}`).
+  Consumers must update their content.
+- **Partial renamed** from `partials/agsayyed/mcq.html` to `partials/ags-mcq/mcq.html`. Any custom layout that includes the partial via
+  `{{ partial "agsayyed/mcq" . }}` must be updated to `{{ partial "ags-mcq/mcq" . }}`.
+
+### Changed
+
+- `config.toml` module mount source is now `assets/hb/modules/ags-mcq` (was `assets/hb/modules/agsayyed`); target unchanged.
+- `tsconfig.json` upgraded — `target: es5` → `ES2020`, added `lib: ["ES2020", "DOM"]`, removed broken `outDir: "./public/js"`, added
+  `noEmit: true` (ts-jest transforms in-memory).
+
+### Migration
+
+In consumer content, replace:
+
+```diff
+- {{< agsayyed/mcq "qa.mcq" >}}
++ {{< ags-mcq "qa.mcq" >}}
+```
+
+No go.mod / config change required on the consumer side; the module path (`github.com/agsayyed/ags-mcq`) is unchanged.
+
 ## [0.3.4] - 2026-05-21
 
 ### Fixed
