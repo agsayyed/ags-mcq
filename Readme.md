@@ -7,7 +7,7 @@ displayed in Bootstrap accordion. The contents are displayed in a Bootstrap card
 To embed in a markdown file, use the following shortcode:
 
 ```go
-{{< agsayyed/mcq "folder_name.file_name" >}}
+{{< ags-mcq "folder_name.file_name" >}}
 ```
 
 The shortcode takes the path to the file as an argument. The file should be in the `data` folder of the Hugo site. The format of the file is
@@ -38,7 +38,7 @@ For example, if file `mcq.yml` resides under a sub folder of the data directory 
 following shortcode:
 
 ```go
-{{< agsayyed/mcq "qa.mcq" >}}
+{{< ags-mcq "qa.mcq" >}}
 ```
 
 > Note: No need to add the extension of the file and even the `data` name. Just provide the path to the file. The files are tested with
